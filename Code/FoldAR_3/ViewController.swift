@@ -56,7 +56,8 @@ class ViewController: UIViewController, ARSCNViewDelegate
         // what other sceneView.session. are there?
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool)
+    {
         super.viewWillDisappear(animated)
         
         // Pause the view's session
@@ -65,6 +66,8 @@ class ViewController: UIViewController, ARSCNViewDelegate
 
     // MARK: - ARSCNViewDelegate
     
+    // for every anchor it calls did add on node using the renderer
+    // this is one type of renderer, a scene renderer (as opposed to a physics renderer)
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor)
     {
         // Place content only for anchors found by plane detection.
@@ -78,41 +81,43 @@ class ViewController: UIViewController, ARSCNViewDelegate
         // setting plane which is a type of scene plane with the width and height of the anchor. The anchor is what detects the area of the plane
         let plane = SCNPlane(width: CGFloat(planeAnchor.planeExtent.width), height: CGFloat(planeAnchor.planeExtent.height))
         
+        // this is the simulation position
+        // there is a plane node which it's simulation position is in the center of the plane anchor
+        // why is y supposed to be 0 here?
+        // defining the scn node's geometery with the plane
+        // the SCN Node accepts an plane that is an SCN Plane
         let planeNode = SCNNode(geometry: plane)
         planeNode.simdPosition = SIMD3<Float>(planeAnchor.center.x, 0, planeAnchor.center.z)
 
         // Give the SCNNode a texture from Assets.xcassets to better visualize the detected plane.
-        // NOTE: change this string to the name of the file you added
-        planeNode.geometry?.firstMaterial?.diffuse.contents = "grid.png"
+        // instead of grid.png this will be our outline with the dotted lines per step
+        // this might be interesting to look at other properties of geometry
+        planeNode.geometry?.firstMaterial?.diffuse.contents = "testPlane.png"
 
-        /*
-         `SCNPlane` is vertically oriented in its local coordinate space, so
-         rotate the plane to match the horizontal orientation of `ARPlaneAnchor`.
-         */
+//         `SCNPlane` is vertically oriented in its local coordinate space, so
+//         rotate the plane to match the horizontal orientation of `ARPlaneAnchor`.
         planeNode.eulerAngles.x = -.pi / 2
 
         // Make the plane visualization semitransparent to clearly show real-world placement.
-        planeNode.opacity = 0.9
+        planeNode.opacity = 1
 
-        /*
-         Add the plane visualization to the ARKit-managed node so that it tracks
-         changes in the plane anchor as plane estimation continues.
-         */
+//      Add the plane visualization to the ARKit-managed node so that it tracks
+//      changes in the plane anchor as plane estimation continues.
         node.addChildNode(planeNode)
     }
     
-    func session(_ session: ARSession, didFailWithError error: Error) {
+    func session(_ session: ARSession, didFailWithError error: Error)
+    {
         // Present an error message to the user
-        
     }
     
-    func sessionWasInterrupted(_ session: ARSession) {
+    func sessionWasInterrupted(_ session: ARSession)
+    {
         // Inform the user that the session has been interrupted, for example, by presenting an overlay
-        
     }
     
-    func sessionInterruptionEnded(_ session: ARSession) {
+    func sessionInterruptionEnded(_ session: ARSession)
+    {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
-        
     }
 }
