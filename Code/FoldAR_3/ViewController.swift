@@ -125,8 +125,8 @@ class ViewController: UIViewController, ARSCNViewDelegate
         
         newButton.frame = CGRect.init(x: self.view.frame.width-310, y:self.view.frame.height-100, width:90, height: 30)
         newButton.setTitle("next", for: .normal)
-        newButton.setTitleColor(.white, for: .normal)
-        newButton.backgroundColor = .red
+        newButton.setTitleColor(.black, for: .normal)
+        newButton.backgroundColor = .white
         
         view.addSubview(newButton)
     }
@@ -137,12 +137,20 @@ class ViewController: UIViewController, ARSCNViewDelegate
         
         newButton.frame = CGRect.init(x: self.view.frame.width-100, y:self.view.frame.height-100, width:90, height: 30)
         newButton.setTitle("back", for: .normal)
-        newButton.setTitleColor(.white, for: .normal)
-        newButton.backgroundColor = .red
+        newButton.setTitleColor(.black, for: .normal)
+        newButton.backgroundColor = .white
         
         view.addSubview(newButton)
     }
     
+    func buttonAction()
+    {
+        newButton.addTarget(self, action: #selector(self.buttonTapped), for: .touchUpInside)
+    }
+    @objc func buttonTapped(sender: UIButton)
+    {
+        print("Hello World!")
+    }
     
     func session(_ session: ARSession, didFailWithError error: Error)
     {
