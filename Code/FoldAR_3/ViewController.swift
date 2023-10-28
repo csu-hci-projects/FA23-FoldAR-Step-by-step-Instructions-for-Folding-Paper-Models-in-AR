@@ -13,6 +13,8 @@
 import UIKit
 import SceneKit
 import ARKit
+import CoreImage
+import CoreGraphics
 
 class ViewController: UIViewController, ARSCNViewDelegate
 {
@@ -20,6 +22,9 @@ class ViewController: UIViewController, ARSCNViewDelegate
     // uses device camera for live video feed
     // this is what synchornizes the virtual and real world "views"
     @IBOutlet var sceneView: ARSCNView!
+    
+    // This is the hello world button
+    let newButton = UIButton()
     
     override func viewDidLoad()
     {
@@ -32,6 +37,10 @@ class ViewController: UIViewController, ARSCNViewDelegate
         // Show statistics such as fps and timing information
         // TODO: what other parameters to sceneView here that we can play with?
         sceneView.showsStatistics = true
+        
+        // create hello world button
+        nextButton()
+        backButton()
         
     }
     
@@ -63,13 +72,16 @@ class ViewController: UIViewController, ARSCNViewDelegate
         // Pause the view's session
         sceneView.session.pause()
     }
-
-    // MARK: - ARSCNViewDelegate
+    
+    // Perform the edge detection of a sheet of paper
+    // Get the height and width from the results of the edge detection
+    // update SCNPlane dynamically with the new dimensions
     
     // for every anchor it calls did add on node using the renderer
     // this is one type of renderer, a scene renderer (as opposed to a physics renderer)
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor)
     {
+        
         // Place content only for anchors found by plane detection.
         // were going to want to limit the number of papers we detect to one?
         // only create planeAnchor if the anchor passed into renderer is of an ARPlaneAnchor (probably a child of ARAnchor)
@@ -104,7 +116,33 @@ class ViewController: UIViewController, ARSCNViewDelegate
 //      Add the plane visualization to the ARKit-managed node so that it tracks
 //      changes in the plane anchor as plane estimation continues.
         node.addChildNode(planeNode)
+        
     }
+    
+    func nextButton()
+    {
+        let newButton = UIButton()
+        
+        newButton.frame = CGRect.init(x: self.view.frame.width-310, y:self.view.frame.height-100, width:90, height: 30)
+        newButton.setTitle("next", for: .normal)
+        newButton.setTitleColor(.white, for: .normal)
+        newButton.backgroundColor = .red
+        
+        view.addSubview(newButton)
+    }
+    
+    func backButton()
+    {
+        let newButton = UIButton()
+        
+        newButton.frame = CGRect.init(x: self.view.frame.width-100, y:self.view.frame.height-100, width:90, height: 30)
+        newButton.setTitle("back", for: .normal)
+        newButton.setTitleColor(.white, for: .normal)
+        newButton.backgroundColor = .red
+        
+        view.addSubview(newButton)
+    }
+    
     
     func session(_ session: ARSession, didFailWithError error: Error)
     {
