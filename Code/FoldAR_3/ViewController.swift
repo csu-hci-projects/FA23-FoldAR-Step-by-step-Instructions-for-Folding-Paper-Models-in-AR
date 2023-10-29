@@ -41,7 +41,6 @@ class ViewController: UIViewController, ARSCNViewDelegate
         // create hello world button
         nextButton()
         backButton()
-        
     }
     
     // pre-defined functions that don't do anything will be overridden
@@ -119,37 +118,75 @@ class ViewController: UIViewController, ARSCNViewDelegate
         
     }
     
-    func nextButton()
-    {
-        let newButton = UIButton()
-        
-        newButton.frame = CGRect.init(x: self.view.frame.width-310, y:self.view.frame.height-100, width:90, height: 30)
-        newButton.setTitle("next", for: .normal)
-        newButton.setTitleColor(.black, for: .normal)
-        newButton.backgroundColor = .white
-        
-        view.addSubview(newButton)
-    }
-    
     func backButton()
     {
         let newButton = UIButton()
         
-        newButton.frame = CGRect.init(x: self.view.frame.width-100, y:self.view.frame.height-100, width:90, height: 30)
-        newButton.setTitle("back", for: .normal)
+        // this is a button action
+        newButton.addTarget(self, action: #selector(self.buttonTapped), for: .touchUpInside)
+        
+        // placement of the button
+        newButton.frame = CGRect(x: 10, y: 5, width: 70, height: 40);
+        newButton.setTitle("Back", for: .normal)
         newButton.setTitleColor(.black, for: .normal)
-        newButton.backgroundColor = .white
+        newButton.backgroundColor = .red
+        newButton.layer.borderColor = UIColor.orange.cgColor
+        newButton.layer.borderWidth = 1.5
+        
+        // gradient in background of button
+        let gradientLayer = CAGradientLayer()
+        
+        // use bounds of button
+        gradientLayer.frame = newButton.bounds
+        
+        // colors, gradient, etc.
+        gradientLayer.colors = [UIColor.orange.cgColor, UIColor.red.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y:1.0)
+        gradientLayer.locations = [0.0, 1.0]
+        
+        newButton.layer.insertSublayer(gradientLayer, at: 0)
         
         view.addSubview(newButton)
     }
     
-    func buttonAction()
+    func nextButton()
     {
+        let newButton = UIButton()
+        
+        // this is a button action
         newButton.addTarget(self, action: #selector(self.buttonTapped), for: .touchUpInside)
+        
+        // placement of the button
+        newButton.frame = CGRect(x: 10, y: 50, width: 70, height: 40);
+        newButton.setTitle("Next", for: .normal)
+        newButton.setTitleColor(.black, for: .normal)
+        newButton.backgroundColor = .orange
+        newButton.layer.borderColor = UIColor.red.cgColor
+        newButton.layer.borderWidth = 1.5
+        
+        // gradient in background of button
+        let gradientLayer = CAGradientLayer()
+        
+        // use bounds of button
+        gradientLayer.frame = newButton.bounds
+        
+        // colors, gradient, etc.
+        gradientLayer.colors = [UIColor.red.cgColor, UIColor.orange.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y:1.0)
+        gradientLayer.locations = [0.0, 1.0]
+        
+        // add layer to button
+        newButton.layer.insertSublayer(gradientLayer, at: 0)
+        
+        view.addSubview(newButton)
     }
+    
+    // this function prints the message Hello World! to the terminal
     @objc func buttonTapped(sender: UIButton)
     {
-        print("Hello World!")
+        print("Hello World")
     }
     
     func session(_ session: ARSession, didFailWithError error: Error)
