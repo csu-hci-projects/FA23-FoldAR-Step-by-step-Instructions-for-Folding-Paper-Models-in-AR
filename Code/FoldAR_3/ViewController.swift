@@ -13,6 +13,8 @@
 import UIKit
 import SceneKit
 import ARKit
+import CoreImage
+import CoreGraphics
 
 class ViewController: UIViewController, ARSCNViewDelegate
 {
@@ -20,6 +22,9 @@ class ViewController: UIViewController, ARSCNViewDelegate
     // uses device camera for live video feed
     // this is what synchornizes the virtual and real world "views"
     @IBOutlet var sceneView: ARSCNView!
+    
+    // This is the hello world button
+    let newButton = UIButton()
     
     override func viewDidLoad()
     {
@@ -33,6 +38,9 @@ class ViewController: UIViewController, ARSCNViewDelegate
         // TODO: what other parameters to sceneView here that we can play with?
         sceneView.showsStatistics = true
         
+        // create hello world button
+        nextButton()
+        backButton()
     }
     
     // pre-defined functions that don't do anything will be overridden
@@ -63,13 +71,16 @@ class ViewController: UIViewController, ARSCNViewDelegate
         // Pause the view's session
         sceneView.session.pause()
     }
-
-    // MARK: - ARSCNViewDelegate
+    
+    // Perform the edge detection of a sheet of paper
+    // Get the height and width from the results of the edge detection
+    // update SCNPlane dynamically with the new dimensions
     
     // for every anchor it calls did add on node using the renderer
     // this is one type of renderer, a scene renderer (as opposed to a physics renderer)
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor)
     {
+        
         // Place content only for anchors found by plane detection.
         // were going to want to limit the number of papers we detect to one?
         // only create planeAnchor if the anchor passed into renderer is of an ARPlaneAnchor (probably a child of ARAnchor)
@@ -104,6 +115,78 @@ class ViewController: UIViewController, ARSCNViewDelegate
 //      Add the plane visualization to the ARKit-managed node so that it tracks
 //      changes in the plane anchor as plane estimation continues.
         node.addChildNode(planeNode)
+        
+    }
+    
+    func backButton()
+    {
+        let newButton = UIButton()
+        
+        // this is a button action
+        newButton.addTarget(self, action: #selector(self.buttonTapped), for: .touchUpInside)
+        
+        // placement of the button
+        newButton.frame = CGRect(x: 10, y: 5, width: 70, height: 40);
+        newButton.setTitle("Back", for: .normal)
+        newButton.setTitleColor(.black, for: .normal)
+        newButton.backgroundColor = .red
+        newButton.layer.borderColor = UIColor.orange.cgColor
+        newButton.layer.borderWidth = 1.5
+        
+        // gradient in background of button
+        let gradientLayer = CAGradientLayer()
+        
+        // use bounds of button
+        gradientLayer.frame = newButton.bounds
+        
+        // colors, gradient, etc.
+        gradientLayer.colors = [UIColor.orange.cgColor, UIColor.red.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y:1.0)
+        gradientLayer.locations = [0.0, 1.0]
+        
+        newButton.layer.insertSublayer(gradientLayer, at: 0)
+        
+        view.addSubview(newButton)
+    }
+    
+    func nextButton()
+    {
+        let newButton = UIButton()
+        
+        // this is a button action
+        newButton.addTarget(self, action: #selector(self.buttonTapped), for: .touchUpInside)
+        
+        // placement of the button
+        newButton.frame = CGRect(x: 10, y: 50, width: 70, height: 40);
+        newButton.setTitle("Next", for: .normal)
+        newButton.setTitleColor(.black, for: .normal)
+        newButton.backgroundColor = .orange
+        newButton.layer.borderColor = UIColor.red.cgColor
+        newButton.layer.borderWidth = 1.5
+        
+        // gradient in background of button
+        let gradientLayer = CAGradientLayer()
+        
+        // use bounds of button
+        gradientLayer.frame = newButton.bounds
+        
+        // colors, gradient, etc.
+        gradientLayer.colors = [UIColor.red.cgColor, UIColor.orange.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y:1.0)
+        gradientLayer.locations = [0.0, 1.0]
+        
+        // add layer to button
+        newButton.layer.insertSublayer(gradientLayer, at: 0)
+        
+        view.addSubview(newButton)
+    }
+    
+    // this function prints the message Hello World! to the terminal
+    @objc func buttonTapped(sender: UIButton)
+    {
+        print("Hello World")
     }
     
     func session(_ session: ARSession, didFailWithError error: Error)
