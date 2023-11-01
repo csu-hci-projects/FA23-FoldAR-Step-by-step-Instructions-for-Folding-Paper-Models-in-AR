@@ -23,6 +23,9 @@ class ViewController: UIViewController, ARSCNViewDelegate
     // this is what synchornizes the virtual and real world "views"
     @IBOutlet var sceneView: ARSCNView!
     
+    // create a SCNNode to hold the 'current' plane node
+    var currentPlaneNode: SCNNode?
+    
     // This is the hello world button
     let newButton = UIButton()
     
@@ -103,6 +106,12 @@ class ViewController: UIViewController, ARSCNViewDelegate
         // setting plane which is a type of scene plane with the width and height of the anchor. The anchor is what detects the area of the plane
         let plane = SCNPlane(width: CGFloat(planeAnchor.planeExtent.width), height: CGFloat(planeAnchor.planeExtent.height))
         
+        // Remove the previous plane node
+        if let existingPlaneNode = currentPlaneNode
+        {
+            existingPlaneNode.removeFromParentNode()
+        }
+        
         // this is the simulation position
         // there is a plane node which it's simulation position is in the center of the plane anchor
         // why is y supposed to be 0 here?
@@ -131,6 +140,8 @@ class ViewController: UIViewController, ARSCNViewDelegate
 //      Add the plane visualization to the ARKit-managed node so that it tracks
 //      changes in the plane anchor as plane estimation continues.
         node.addChildNode(planeNode)
+        
+        currentPlaneNode = planeNode
         
     }
     
@@ -228,6 +239,15 @@ class ViewController: UIViewController, ARSCNViewDelegate
         print("Pressed: Next | Current step:", currentStep)
         
         stage(cur: currentStep, update: true)
+        
+        // remove the current planeNode to show the next one
+        currentPlaneNode?.removeFromParentNode()
+        currentPlaneNode = nil
+        
+        stage(cur: currentStep)
+        
+        // call the configure AR session for the NEXT step
+        configureARSession()
     }
     
     @objc func backButtonTapped(sender: UIButton)
@@ -238,6 +258,37 @@ class ViewController: UIViewController, ARSCNViewDelegate
         
         print("Pressed: Back | Current step:", currentStep)
         stage(cur: currentStep, update: true)
+        
+        // remove the current planeNode to show the next one
+        currentPlaneNode?.removeFromParentNode()
+        currentPlaneNode = nil
+        
+        stage(cur: currentStep)
+        
+        // call the configure AR session for the NEXT step
+        configureARSession()
+    }
+    
+    // this function will reset the AR session for the next step.
+    // perhaps we can set it up to only detect ONE plane?
+    func configureARSession()
+    {
+        // using session.pause will pause the AR session that's
+        // associated with ARSCNView. This just stopps the tracking of the
+        // horizontal plane
+        sceneView.session.pause()
+
+        // Create a new instance of th a new AR session object
+        // and removing the exisiting anchors (from the previous session)
+        let configuration = ARWorldTrackingConfiguration()
+        
+        // reset the configuration settings for the new configuration to
+        // horizontal plane detection
+        configuration.planeDetection = .horizontal
+        
+        // run new session and set the option to remove any existing anchors
+        // within the scene view (the previous detected horizontal plane)
+        sceneView.session.run(configuration, options: [.removeExistingAnchors])
     }
     
     func session(_ session: ARSession, didFailWithError error: Error)
