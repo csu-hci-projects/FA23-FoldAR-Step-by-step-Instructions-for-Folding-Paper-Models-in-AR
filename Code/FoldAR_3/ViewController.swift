@@ -26,6 +26,11 @@ class ViewController: UIViewController, ARSCNViewDelegate
     // This is the hello world button
     let newButton = UIButton()
     
+    let minStep = 1
+    let maxStep = 12
+    
+    var currentStep = 1
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -38,9 +43,15 @@ class ViewController: UIViewController, ARSCNViewDelegate
         // TODO: what other parameters to sceneView here that we can play with?
         sceneView.showsStatistics = true
         
-        // create hello world button
+        // create next and back world button
         nextButton()
         backButton()
+        stage(cur: currentStep)
+        
+    }
+    
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        print("Rotated")
     }
     
     // pre-defined functions that don't do anything will be overridden
@@ -123,7 +134,7 @@ class ViewController: UIViewController, ARSCNViewDelegate
         let newButton = UIButton()
         
         // this is a button action
-        newButton.addTarget(self, action: #selector(self.buttonTapped), for: .touchUpInside)
+        newButton.addTarget(self, action: #selector(self.backButtonTapped), for: .touchUpInside)
         
         // placement of the button
         newButton.frame = CGRect(x: 10, y: 5, width: 70, height: 40);
@@ -155,10 +166,10 @@ class ViewController: UIViewController, ARSCNViewDelegate
         let newButton = UIButton()
         
         // this is a button action
-        newButton.addTarget(self, action: #selector(self.buttonTapped), for: .touchUpInside)
+        newButton.addTarget(self, action: #selector(self.nextButtonTapped), for: .touchUpInside)
         
         // placement of the button
-        newButton.frame = CGRect(x: 10, y: 50, width: 70, height: 40);
+        newButton.frame = CGRect(x: self.view.bounds.maxX-80, y: 5, width: 70, height: 40);
         newButton.setTitle("Next", for: .normal)
         newButton.setTitleColor(.black, for: .normal)
         newButton.backgroundColor = .orange
@@ -183,10 +194,45 @@ class ViewController: UIViewController, ARSCNViewDelegate
         view.addSubview(newButton)
     }
     
+    func stage(cur: Int, update: Bool = false){
+        let stage = UILabel()
+        
+        stage.frame = CGRect(x: 100, y: 5, width: 40, height: 40)
+        stage.center.x = self.view.center.x
+        stage.text = String(cur)
+        stage.font = .boldSystemFont(ofSize: 14)
+        stage.textColor = .black
+        stage.textAlignment = .center
+        stage.backgroundColor = .white
+        
+        if update{
+            view.willRemoveSubview(stage)
+        }
+        
+        view.addSubview(stage)
+        
+    }
+    
     // this function prints the message Hello World! to the terminal
-    @objc func buttonTapped(sender: UIButton)
+    @objc func nextButtonTapped(sender: UIButton)
     {
-        print("Hello World")
+        if currentStep < maxStep {
+            currentStep = currentStep+1
+        }
+        
+        print("Pressed: Next | Current step:", currentStep)
+        
+        stage(cur: currentStep, update: true)
+    }
+    
+    @objc func backButtonTapped(sender: UIButton)
+    {
+        if currentStep > minStep{
+            currentStep = currentStep-1
+        }
+        
+        print("Pressed: Back | Current step:", currentStep)
+        stage(cur: currentStep, update: true)
     }
     
     func session(_ session: ARSession, didFailWithError error: Error)
