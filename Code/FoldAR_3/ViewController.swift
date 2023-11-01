@@ -15,13 +15,23 @@ import SceneKit
 import ARKit
 import CoreImage
 import CoreGraphics
+import Vision
 
+// the all important view controller class :)
 class ViewController: UIViewController, ARSCNViewDelegate
 {
     // This is the AR SceneKit view class
     // uses device camera for live video feed
     // this is what synchornizes the virtual and real world "views"
+    // this View uses ARKit and contains SceneKit functionlity. It will
+    // automatically combine the physical cameria with the scene managed by
+    // ARKit.
     @IBOutlet var sceneView: ARSCNView!
+    
+    // based on what I am reading in the tech doucmentations, it might be a smart idea to use a camera view in addition to ARSCN view,
+    // and then overlay the two? or is this not needded? https://developer.apple.com/documentation/vision/detecting_hand_poses_with_vision
+//    var cameraView : SCNCamera!
+    
     
     // create a SCNNode to hold the 'current' plane node
     var currentPlaneNode: SCNNode?
@@ -33,6 +43,7 @@ class ViewController: UIViewController, ARSCNViewDelegate
     
     // save plane position too
     var initialPlanePosition: SIMD3<Float>?
+    
     
     // This is the hello world button
     let newButton = UIButton()
@@ -57,6 +68,7 @@ class ViewController: UIViewController, ARSCNViewDelegate
         // create next and back world button
         nextButton()
         backButton()
+        stage(cur: currentStep)
         stage(cur: currentStep)
         
     }
@@ -171,6 +183,7 @@ class ViewController: UIViewController, ARSCNViewDelegate
         
     }
     
+    // we should be able to condense back and next into one button if we pass in arugments to this function
     func backButton()
     {
         let newButton = UIButton()
@@ -305,18 +318,10 @@ class ViewController: UIViewController, ARSCNViewDelegate
         sceneView.session.run(configuration, options: [.removeExistingAnchors])
     }
     
-    func session(_ session: ARSession, didFailWithError error: Error)
+    func detectHandPosition(in image: CVPixelBuffer)
     {
-        // Present an error message to the user
-    }
-    
-    func sessionWasInterrupted(_ session: ARSession)
-    {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
-    }
-    
-    func sessionInterruptionEnded(_ session: ARSession)
-    {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
+        // try using the Human Hand detection API
+        let detectedHand = VNDetectHumanHandPoseRequest()
+            
     }
 }
