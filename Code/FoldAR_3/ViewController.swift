@@ -26,6 +26,14 @@ class ViewController: UIViewController, ARSCNViewDelegate
     // create a SCNNode to hold the 'current' plane node
     var currentPlaneNode: SCNNode?
     
+    // save initial plane dimensions
+    // we should update this later to use document finder api
+    // and save those dimensions
+    var initialPlaneDimensions: (width: CGFloat, height: CGFloat)?
+    
+    // save plane position too
+    var initialPlanePosition: SIMD3<Float>?
+    
     // This is the hello world button
     let newButton = UIButton()
     
@@ -100,16 +108,23 @@ class ViewController: UIViewController, ARSCNViewDelegate
         // only create planeAnchor if the anchor passed into renderer is of an ARPlaneAnchor (probably a child of ARAnchor)
         // Are we going to be using a plane anchor or an image anchor?
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
-
+        
+        // if we have not yet set the initial plane dimensions or we're on the first step.
+        if initialPlaneDimensions == nil || currentStep == minStep
+        {
+            initialPlaneDimensions = (width: CGFloat(planeAnchor.planeExtent.width), height: CGFloat(planeAnchor.planeExtent.height))
+        }
+        
         // Create a SceneKit plane to visualize the plane anchor using its position and extent.
         // We now have planeAnchor
         // setting plane which is a type of scene plane with the width and height of the anchor. The anchor is what detects the area of the plane
-        let plane = SCNPlane(width: CGFloat(planeAnchor.planeExtent.width), height: CGFloat(planeAnchor.planeExtent.height))
+        let plane = SCNPlane(width: initialPlaneDimensions!.width, height: initialPlaneDimensions!.height)
         
-        // Remove the previous plane node
-        if let existingPlaneNode = currentPlaneNode
+        
+        // Also save inital plane position. IS THIS NEEDED?
+        if initialPlanePosition == nil || currentStep == minStep
         {
-            existingPlaneNode.removeFromParentNode()
+            initialPlanePosition = SIMD3<Float>(planeAnchor.center.x, 0, planeAnchor.center.z)
         }
         
         // this is the simulation position
@@ -117,15 +132,20 @@ class ViewController: UIViewController, ARSCNViewDelegate
         // why is y supposed to be 0 here?
         // defining the scn node's geometery with the plane
         // the SCN Node accepts an plane that is an SCN Plane
+//        let planeNode = SCNNode(geometry: plane)
+//        planeNode.simdPosition = SIMD3<Float>(planeAnchor.center.x, 0, planeAnchor.center.z)
         let planeNode = SCNNode(geometry: plane)
-        planeNode.simdPosition = SIMD3<Float>(planeAnchor.center.x, 0, planeAnchor.center.z)
-
+        planeNode.simdPosition = initialPlanePosition!
+        
         // Give the SCNNode a texture from Assets.xcassets to better visualize the detected plane.
         // instead of grid.png this will be our outline with the dotted lines per step
         // this might be interesting to look at other properties of geometry
-        if currentStep == maxStep {
+        if currentStep == maxStep
+        {
             planeNode.geometry?.firstMaterial?.diffuse.contents = "S12.png"
-        }else{
+        }
+        else
+        {
             planeNode.geometry?.firstMaterial?.diffuse.contents = "S\(currentStep)p.png"
         }
         
@@ -140,6 +160,12 @@ class ViewController: UIViewController, ARSCNViewDelegate
 //      Add the plane visualization to the ARKit-managed node so that it tracks
 //      changes in the plane anchor as plane estimation continues.
         node.addChildNode(planeNode)
+        
+        // Remove the previous plane node
+        if let existingPlaneNode = currentPlaneNode
+        {
+            existingPlaneNode.removeFromParentNode()
+        }
         
         currentPlaneNode = planeNode
         
