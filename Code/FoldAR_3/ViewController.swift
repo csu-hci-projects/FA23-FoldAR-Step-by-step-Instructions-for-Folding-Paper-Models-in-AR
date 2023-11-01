@@ -114,7 +114,12 @@ class ViewController: UIViewController, ARSCNViewDelegate
         // Give the SCNNode a texture from Assets.xcassets to better visualize the detected plane.
         // instead of grid.png this will be our outline with the dotted lines per step
         // this might be interesting to look at other properties of geometry
-        planeNode.geometry?.firstMaterial?.diffuse.contents = "S1p.png"
+        if currentStep == maxStep {
+            planeNode.geometry?.firstMaterial?.diffuse.contents = "S12.png"
+        }else{
+            planeNode.geometry?.firstMaterial?.diffuse.contents = "S\(currentStep)p.png"
+        }
+        
 
 //         `SCNPlane` is vertically oriented in its local coordinate space, so
 //         rotate the plane to match the horizontal orientation of `ARPlaneAnchor`.
