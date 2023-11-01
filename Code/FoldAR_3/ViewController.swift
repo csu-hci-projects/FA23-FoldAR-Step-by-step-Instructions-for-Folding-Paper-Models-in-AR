@@ -239,13 +239,7 @@ class ViewController: UIViewController, ARSCNViewDelegate
         print("Pressed: Next | Current step:", currentStep)
         
         stage(cur: currentStep, update: true)
-        
-        // remove the current planeNode to show the next one
-        currentPlaneNode?.removeFromParentNode()
-        currentPlaneNode = nil
-        
-        stage(cur: currentStep)
-        
+
         // call the configure AR session for the NEXT step
         configureARSession()
     }
@@ -259,13 +253,7 @@ class ViewController: UIViewController, ARSCNViewDelegate
         print("Pressed: Back | Current step:", currentStep)
         stage(cur: currentStep, update: true)
         
-        // remove the current planeNode to show the next one
-        currentPlaneNode?.removeFromParentNode()
-        currentPlaneNode = nil
-        
-        stage(cur: currentStep)
-        
-        // call the configure AR session for the NEXT step
+        // call the configure AR session for the BACK step
         configureARSession()
     }
     
