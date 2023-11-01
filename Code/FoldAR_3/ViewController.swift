@@ -318,6 +318,8 @@ class ViewController: UIViewController, ARSCNViewDelegate
         sceneView.session.run(configuration, options: [.removeExistingAnchors])
     }
     
+    // this function takes in an image as CVPixelBuffer
+    // This is what we should performt the hand pose request on
     func detectHandPosition(in image: CVPixelBuffer)
     {
         // try using the Human Hand detection API
