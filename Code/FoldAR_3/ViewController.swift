@@ -55,7 +55,7 @@ class ViewController: UIViewController, ARSCNViewDelegate
 
         // issue #28
         configuration.planeDetection = .horizontal
-
+        
         sceneView.session.run(configuration)
     }
     
@@ -97,7 +97,7 @@ class ViewController: UIViewController, ARSCNViewDelegate
         
         planeNode.eulerAngles.x = -.pi / 2
         planeNode.opacity = 1
-
+        
         node.addChildNode(planeNode)
 
         if let existingPlaneNode = currentPlaneNode
@@ -106,7 +106,6 @@ class ViewController: UIViewController, ARSCNViewDelegate
         }
         
         currentPlaneNode = planeNode
-        
     }
     
     //    // Render for the scene renderer. Will run on multiple anchors if found
@@ -242,6 +241,7 @@ class ViewController: UIViewController, ARSCNViewDelegate
         // try using the Human Hand detection API
         let detectedHand = VNDetectHumanHandPoseRequest()
         
+        detectedHand.maximumHandCount = 1
         // look at: y coordinate of the handLandmarkKeyThumbTIP
         // handLandmarkKeyThumbCMC
     }
