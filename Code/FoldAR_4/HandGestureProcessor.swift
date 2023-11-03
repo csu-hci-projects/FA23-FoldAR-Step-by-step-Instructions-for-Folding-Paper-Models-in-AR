@@ -16,7 +16,13 @@ class HandGestureProcessor {
     typealias PointsPair = (thumbTip: CGPoint, thumbBase: CGPoint, thumbIP: CGPoint, thumbMP: CGPoint,
                             thumbTip2: CGPoint, thumbBase2: CGPoint, thumbIP2: CGPoint, thumbMP2: CGPoint,
                             indexTip: CGPoint, indexPIP: CGPoint, indexDIP: CGPoint, indexMCP: CGPoint,
-                            indexTip2: CGPoint, indexPIP2: CGPoint, indexDIP2: CGPoint, indexMCP2: CGPoint)
+                            indexTip2: CGPoint, indexPIP2: CGPoint, indexDIP2: CGPoint, indexMCP2: CGPoint,
+                            middleTip: CGPoint, middlePIP: CGPoint, middleDIP: CGPoint, middleMCP: CGPoint,
+                            middleTip2: CGPoint, middlePIP2: CGPoint, middleDIP2: CGPoint, middleMCP2: CGPoint,
+                            ringTip: CGPoint, ringPIP: CGPoint, ringDIP: CGPoint, ringMCP: CGPoint,
+                            ringTip2: CGPoint, ringPIP2: CGPoint, ringDIP2: CGPoint, ringMCP2: CGPoint,
+                            littleTip: CGPoint, littlePIP: CGPoint, littleDIP: CGPoint, littleMCP: CGPoint,
+                            littleTip2: CGPoint, littlePIP2: CGPoint, littleDIP2: CGPoint, littleMCP2: CGPoint)
     
     private var state = State.unknown {
         didSet {
@@ -28,7 +34,16 @@ class HandGestureProcessor {
     private let evidenceCounterStateTrigger: Int
     
     var didChangeStateClosure: ((State) -> Void)?
-    private (set) var lastProcessedPointsPair = PointsPair(.zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero)
+    private (set) var lastProcessedPointsPair = PointsPair(.zero, .zero, .zero, .zero,
+                                                           .zero, .zero, .zero, .zero,
+                                                           .zero, .zero, .zero, .zero,
+                                                           .zero, .zero, .zero, .zero,
+                                                           .zero, .zero, .zero, .zero,
+                                                           .zero, .zero, .zero, .zero,
+                                                           .zero, .zero, .zero, .zero,
+                                                           .zero, .zero, .zero, .zero,
+                                                           .zero, .zero, .zero, .zero,
+                                                           .zero, .zero, .zero, .zero)
     
     init(evidenceCounterStateTrigger: Int = 3)
     {
