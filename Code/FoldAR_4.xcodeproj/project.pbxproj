@@ -318,7 +318,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "FoldAR1.FoldAR-4";
+				PRODUCT_BUNDLE_IDENTIFIER = "tc30.FoldAR-4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTS_MACCATALYST = YES;
@@ -341,7 +341,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "FoldAR1.FoldAR-4";
+				PRODUCT_BUNDLE_IDENTIFIER = "tc30.FoldAR-4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTS_MACCATALYST = YES;

@@ -13,7 +13,10 @@ class HandGestureProcessor {
         case unknown
     }
     
-    typealias PointsPair = (thumbTip: CGPoint, thumbBase: CGPoint, thumbIP: CGPoint, thumbMP: CGPoint)
+    typealias PointsPair = (thumbTip: CGPoint, thumbBase: CGPoint, thumbIP: CGPoint, thumbMP: CGPoint,
+                            thumbTip2: CGPoint, thumbBase2: CGPoint, thumbIP2: CGPoint, thumbMP2: CGPoint,
+                            indexTip: CGPoint, indexPIP: CGPoint, indexDIP: CGPoint, indexMCP: CGPoint,
+                            indexTip2: CGPoint, indexPIP2: CGPoint, indexDIP2: CGPoint, indexMCP2: CGPoint)
     
     private var state = State.unknown {
         didSet {
@@ -25,7 +28,7 @@ class HandGestureProcessor {
     private let evidenceCounterStateTrigger: Int
     
     var didChangeStateClosure: ((State) -> Void)?
-    private (set) var lastProcessedPointsPair = PointsPair(.zero, .zero, .zero, .zero)
+    private (set) var lastProcessedPointsPair = PointsPair(.zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero, .zero)
     
     init(evidenceCounterStateTrigger: Int = 3)
     {
@@ -42,6 +45,7 @@ class HandGestureProcessor {
     {
         lastProcessedPointsPair = pointsPair
         
+        // thumbs up or thumbs down decision
         let position = pointsPair.thumbTip.y - pointsPair.thumbBase.y
         
         if position < 0
