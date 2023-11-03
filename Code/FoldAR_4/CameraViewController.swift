@@ -105,15 +105,61 @@ class CameraViewController: UIViewController
     
     // processPoints - IMPORTANT
     // TODO: process points for all fingers + wrist
-    func processPoints(thumbTip: CGPoint?, thumbBase: CGPoint?, thumbIP_p: CGPoint?, thumbMP_p: CGPoint?,
-                       thumbTip2: CGPoint?, thumbBase2: CGPoint?, thumbIP_p2: CGPoint?, thumbMP_p2: CGPoint?,
-                       indexTip1: CGPoint?, indexPIP1: CGPoint?, indexDIP1: CGPoint?, indexMCP1: CGPoint?,
-                       indexTip2: CGPoint?, indexPIP2: CGPoint?, indexDIP2: CGPoint?, indexMCP2: CGPoint?)
+//    func processPoints(thumbTip: CGPoint?, thumbBase: CGPoint?, thumbIP_p: CGPoint?, thumbMP_p: CGPoint?,
+//                       thumbTip2: CGPoint?, thumbBase2: CGPoint?, thumbIP_p2: CGPoint?, thumbMP_p2: CGPoint?,
+//                       indexTip1: CGPoint?, indexPIP1: CGPoint?, indexDIP1: CGPoint?, indexMCP1: CGPoint?,
+//                       indexTip2: CGPoint?, indexPIP2: CGPoint?, indexDIP2: CGPoint?, indexMCP2: CGPoint?)
+    func processPoints(thumbPoints: [CGPoint?], thumbPoints2: [CGPoint?], indexPoints: [CGPoint?], indexPoints2: [CGPoint?],
+                       middlePoints: [CGPoint?], middlePoints2: [CGPoint?], ringPoints: [CGPoint?], ringPoints2:[CGPoint?], littlePoints: [CGPoint?], littlePoints2: [CGPoint?])
     {
+        let thumbTip = thumbPoints[0]
+        let thumbBase = thumbPoints[1]
+        let thumbIP_p = thumbPoints[2]
+        let thumbMP_p = thumbPoints[3]
+        let thumbTip2 = thumbPoints2[0]
+        let thumbBase2 = thumbPoints2[1]
+        let thumbIP_p2 = thumbPoints2[2]
+        let thumbMP_p2 = thumbPoints2[3]
+        
+        let indexTip1p = indexPoints[0]
+        let indexPIP1p = indexPoints[1]
+        let indexDIP1p = indexPoints[2]
+        let indexMCP1p = indexPoints[3]
+        let indexTip2p = indexPoints2[0]
+        let indexPIP2p = indexPoints2[1]
+        let indexDIP2p = indexPoints2[2]
+        let indexMCP2p = indexPoints2[3]
+        
+        let middleTip1p = middlePoints[0]
+        let middlePIP1p = middlePoints[1]
+        let middleDIP1p = middlePoints[2]
+        let middleMCP1p = middlePoints[3]
+        let middleTip2p = middlePoints2[0]
+        let middlePIP2p = middlePoints2[1]
+        let middleDIP2p = middlePoints2[2]
+        let middleMCP2p = middlePoints2[3]
+        
+        let ringTip1p = ringPoints[0]
+        let ringPIP1p = ringPoints[1]
+        let ringDIP1p = ringPoints[2]
+        let ringMCP1p = ringPoints[3]
+        let ringTip2p = ringPoints2[0]
+        let ringPIP2p = ringPoints2[1]
+        let ringDIP2p = ringPoints2[2]
+        let ringMCP2p = ringPoints2[3]
+        
+        let littleTip1p = littlePoints[0]
+        let littlePIP1p = littlePoints[1]
+        let littleDIP1p = littlePoints[2]
+        let littleMCP1p = littlePoints[3]
+        let littleTip2p = littlePoints2[0]
+        let littlePIP2p = littlePoints2[1]
+        let littleDIP2p = littlePoints2[2]
+        let littleMCP2p = littlePoints2[3]
+        
         // Check that we havea all thumb points
         // Do we need to put the rest of the digits here?
         guard let thumbPoint = thumbTip, let basePoint = thumbBase, let tIPpoint = thumbIP_p, let tMPpoint = thumbMP_p
-//              let thumbPoint2 = thumbTip2, let basePoint2 = thumbBase2, let tIPpoint2 = thumbIP_p2, let tMPpoint2 = thumbMP_p2
         else
         {
             // If there were no observations for more than 2 seconds reset gesture processor.
@@ -139,20 +185,57 @@ class CameraViewController: UIViewController
         let tIPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: thumbIP_p2!)
         let tMPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: thumbMP_p2!)
         
-        let indexTipPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexTip1!)
-        let indexPIPPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexPIP1!)
-        let indexDIPPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexDIP1!)
-        let indexMCPPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexMCP1!)
+        let indexTipPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexTip1p!)
+        let indexPIPPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexPIP1p!)
+        let indexDIPPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexDIP1p!)
+        let indexMCPPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexMCP1p!)
         
-        let indexTipPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexTip2!)
-        let indexPIPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexPIP2!)
-        let indexDIPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexDIP2!)
-        let indexMCPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexMCP2!)
+        let indexTipPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexTip2p!)
+        let indexPIPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexPIP2p!)
+        let indexDIPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexDIP2p!)
+        let indexMCPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: indexMCP2p!)
+        
+        let middleTipPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: middleTip1p!)
+        let middlePIPPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: middlePIP1p!)
+        let middleDIPPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: middleDIP1p!)
+        let middleMCPPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: middleMCP1p!)
+        
+        let middleTipPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: middleTip2p!)
+        let middlePIPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: middlePIP2p!)
+        let middleDIPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: middleDIP2p!)
+        let middleMCPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: middleMCP2p!)
+        
+        let ringTipPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: ringTip1p!)
+        let ringPIPPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: ringPIP1p!)
+        let ringDIPPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: ringDIP1p!)
+        let ringMCPPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: ringMCP1p!)
+        
+        let ringTipPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: ringTip2p!)
+        let ringPIPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: ringPIP2p!)
+        let ringDIPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: ringDIP2p!)
+        let ringMCPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: ringMCP2p!)
+        
+        let littleTipPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: littleTip1p!)
+        let littlePIPPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: littlePIP1p!)
+        let littleDIPPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: littleDIP1p!)
+        let littleMCPPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: littleMCP1p!)
+        
+        let littleTipPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: littleTip2p!)
+        let littlePIPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: littlePIP2p!)
+        let littleDIPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: littleDIP2p!)
+        let littleMCPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: littleMCP2p!)
         
         // Process new points
         gestureProcessor.processPointsPair((thumbPointConverted, basePointConverted, tIPPointConverted, tMPPointConverted,
                                             thumbPointConverted2, basePointConverted2, tIPPointConverted2, tMPPointConverted2,
-                                            indexTipPointConverted, indexPIPPointConverted, indexDIPPointConverted, indexMCPPointConverted,indexTipPointConverted2, indexPIPPointConverted2, indexDIPPointConverted2, indexMCPPointConverted2))
+                                            indexTipPointConverted, indexPIPPointConverted, indexDIPPointConverted, indexMCPPointConverted,
+                                            indexTipPointConverted2, indexPIPPointConverted2, indexDIPPointConverted2, indexMCPPointConverted2,
+                                            middleTipPointConverted, middlePIPPointConverted, middleDIPPointConverted, middleMCPPointConverted,
+                                            middleTipPointConverted2, middlePIPPointConverted2, middleDIPPointConverted2, middleMCPPointConverted2,
+                                            ringTipPointConverted, ringPIPPointConverted, ringDIPPointConverted, ringMCPPointConverted,
+                                            ringTipPointConverted2, ringPIPPointConverted2, ringDIPPointConverted2, ringMCPPointConverted2,
+                                            littleTipPointConverted, littlePIPPointConverted, littleDIPPointConverted, littleMCPPointConverted,
+                                            littleTipPointConverted2, littlePIPPointConverted2, littleDIPPointConverted2, littleMCPPointConverted2))
     }
     
     private func handleGestureStateChange(state: HandGestureProcessor.State)
@@ -178,7 +261,14 @@ class CameraViewController: UIViewController
         cameraView.showPoints([pointsPair.thumbTip, pointsPair.thumbBase, pointsPair.thumbIP, pointsPair.thumbMP,
                                pointsPair.thumbTip2, pointsPair.thumbBase2, pointsPair.thumbIP2, pointsPair.thumbMP2,
                                pointsPair.indexTip, pointsPair.indexPIP, pointsPair.indexDIP, pointsPair.indexMCP,
-                               pointsPair.indexTip2, pointsPair.indexPIP2, pointsPair.indexDIP2, pointsPair.indexMCP2], color: tipsColor)
+                               pointsPair.indexTip2, pointsPair.indexPIP2, pointsPair.indexDIP2, pointsPair.indexMCP2,
+                               pointsPair.middleTip, pointsPair.middlePIP, pointsPair.middleDIP, pointsPair.middleMCP,
+                               pointsPair.middleTip2, pointsPair.middlePIP2, pointsPair.middleDIP2, pointsPair.middleMCP2,
+                               pointsPair.ringTip, pointsPair.ringPIP, pointsPair.ringDIP, pointsPair.ringMCP,
+                               pointsPair.ringTip2, pointsPair.ringPIP2, pointsPair.ringDIP2, pointsPair.ringMCP2,
+                               pointsPair.littleTip, pointsPair.littlePIP, pointsPair.littleDIP, pointsPair.littleMCP,
+                               pointsPair.littleTip2, pointsPair.littlePIP2, pointsPair.littleDIP2, pointsPair.littleMCP2],
+                               color: tipsColor)
     }
     
     
@@ -190,8 +280,10 @@ class CameraViewController: UIViewController
     }
 }
 
-extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
-    public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate
+{
+    public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection)
+    {
         var thumbTip: CGPoint?
         var thumbBase: CGPoint?
         var thumbIP: CGPoint?
@@ -212,23 +304,64 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         var indexPIP2: CGPoint?
         var indexMCP2: CGPoint?
         
+        var middleTip1: CGPoint?
+        var middlePIP1: CGPoint?
+        var middleDIP1: CGPoint?
+        var middleMCP1: CGPoint?
+        
+        var middleTip2: CGPoint?
+        var middlePIP2: CGPoint?
+        var middleDIP2: CGPoint?
+        var middleMCP2: CGPoint?
+        
+        var ringTip1: CGPoint?
+        var ringPIP1: CGPoint?
+        var ringDIP1: CGPoint?
+        var ringMCP1: CGPoint?
+        
+        var ringTip2: CGPoint?
+        var ringPIP2: CGPoint?
+        var ringDIP2: CGPoint?
+        var ringMCP2: CGPoint?
+        
+        var littleTip1: CGPoint?
+        var littlePIP1: CGPoint?
+        var littleDIP1: CGPoint?
+        var littleMCP1: CGPoint?
+        
+        var littleTip2: CGPoint?
+        var littlePIP2: CGPoint?
+        var littleDIP2: CGPoint?
+        var littleMCP2: CGPoint?
+        
         defer
         {
             DispatchQueue.main.sync
             {
-                self.processPoints(thumbTip: thumbTip, thumbBase: thumbBase, thumbIP_p: thumbIP, thumbMP_p: thumbMP,
-                                   thumbTip2: thumbTip2, thumbBase2: thumbBase2, thumbIP_p2: thumbIP2, thumbMP_p2: thumbMP2,
-                                   indexTip1: indexTip1, indexPIP1: indexDIP1, indexDIP1: indexPIP1, indexMCP1: indexMCP1,
-                                   indexTip2: indexTip2, indexPIP2: indexDIP2, indexDIP2: indexPIP2, indexMCP2: indexMCP2)
+                self.processPoints(thumbPoints: [thumbTip, thumbBase, thumbIP, thumbMP],
+                                   thumbPoints2: [thumbTip2, thumbBase2, thumbIP2, thumbMP2],
+                                   indexPoints: [indexTip1, indexPIP1, indexDIP1, indexMCP1],
+                                   indexPoints2: [indexTip2, indexPIP2, indexDIP2, indexMCP2],
+                                   middlePoints: [middleTip1, middlePIP1, middleDIP1, middleMCP1],
+                                   middlePoints2: [middleTip2, middlePIP2, middleDIP2, middleMCP2],
+                                   ringPoints: [ringTip1, ringPIP1, ringDIP1, ringMCP1],
+                                   ringPoints2: [ringTip2, ringPIP2, ringDIP2, ringMCP2],
+                                   littlePoints: [littleTip1, littlePIP1, littleDIP1, littleMCP1],
+                                   littlePoints2: [littleTip2, littlePIP2, littleDIP2, littleMCP2])
             }
         }
 
+        // Create the VN Image Request Handler so we have access to the live video frames to perform the
+        // VNDetectHumanHandPoseRequest on
         let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .up, options: [:])
-        do {
+        
+        do
+        {
             // Perform VNDetectHumanHandPoseRequest
             try handler.perform([handPoseRequest])
-            // Continue only when a hand was detected in the frame.
-            // Since we set the maximumHandCount property of the request to 1, there will be at most one observation.
+            
+            // Continue only when a hand was detected in the frame
+            // This will attempt to find the first hand, and then the second hand
             guard let observation = handPoseRequest.results?.first, let observation2 = handPoseRequest.results?.last
             else
             {
@@ -240,101 +373,194 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             let indexPoints = try observation.recognizedPoints(.indexFinger)
             let middlePoints = try observation.recognizedPoints(.middleFinger)
             let ringPoints = try observation.recognizedPoints(.ringFinger)
-            let pinkyPoints = try observation.recognizedPoints(.littleFinger)
+            let littlePoints = try observation.recognizedPoints(.littleFinger)
             
             let thumbPoints2 = try observation2.recognizedPoints(.thumb)
             let indexPoints2 = try observation2.recognizedPoints(.indexFinger)
             let middlePoints2 = try observation2.recognizedPoints(.middleFinger)
             let ringPoints2 = try observation2.recognizedPoints(.ringFinger)
-            let pinkyPoints2 = try observation2.recognizedPoints(.littleFinger)
+            let littlePoints2 = try observation2.recognizedPoints(.littleFinger)
+            
+            // skipping wrist points for now
 //            let wristPoint = try observation.recognizedPoint(.wrist)
+//            let wristPoint2 = try observation2.recognizedPoint(.wrist)
             
-            guard let thumbTipPoint = thumbPoints[.thumbTip], let thumbIP_p = thumbPoints[.thumbIP], let thumbMP_p = thumbPoints[.thumbMP], let thumbBasePoint = thumbPoints[.thumbCMC]
+            // Thumb fingers for both hands
+            guard let thumbTipPoint = thumbPoints[.thumbTip],
+                  let thumbIP_p = thumbPoints[.thumbIP],
+                  let thumbMP_p = thumbPoints[.thumbMP],
+                  let thumbBasePoint = thumbPoints[.thumbCMC]
             else
             {
                 return
             }
             
-            guard let thumbTipPoint2 = thumbPoints2[.thumbTip], let thumbIP_p2 = thumbPoints2[.thumbIP], let thumbMP_p2 = thumbPoints2[.thumbMP], let thumbBasePoint2 = thumbPoints2[.thumbCMC]
+            guard let thumbTipPoint2 = thumbPoints2[.thumbTip],
+                  let thumbIP_p2 = thumbPoints2[.thumbIP],
+                  let thumbMP_p2 = thumbPoints2[.thumbMP],
+                  let thumbBasePoint2 = thumbPoints2[.thumbCMC]
             else
             {
                 return
             }
             
-            guard let indexTip = indexPoints[.indexTip], let indexDIP = indexPoints[.indexDIP], let indexPIP = indexPoints[.indexPIP], let indexMCP = indexPoints[.indexMCP]
+            // Index fingers for both hands
+            guard let indexTip1p = indexPoints[.indexTip],
+                    let indexDIP1p = indexPoints[.indexDIP],
+                    let indexPIP1p = indexPoints[.indexPIP],
+                    let indexMCP1p = indexPoints[.indexMCP]
+            else
+            {
+                return
+            }
+            guard let indexTip2p = indexPoints2[.indexTip],
+                  let indexDIP2p = indexPoints2[.indexDIP],
+                  let indexPIP2p = indexPoints2[.indexPIP],
+                  let indexMCP2p = indexPoints2[.indexMCP]
             else
             {
                 return
             }
             
-            guard let indexTipT = indexPoints2[.indexTip], let indexDIPT = indexPoints2[.indexDIP], let indexPIPT = indexPoints2[.indexPIP], let indexMCPT = indexPoints2[.indexMCP]
+            // Middle fingers for both hands
+            guard let middleTip1p = middlePoints[.middleTip],
+                  let middleDIP1p = middlePoints[.middleDIP],
+                  let middlePIP1p = middlePoints[.middlePIP],
+                  let middleMCP1p = middlePoints[.middleMCP]
+            else
+            {
+                return
+            }
+            guard let middleTip2p = middlePoints2[.middleTip],
+                  let middleDIP2p = middlePoints2[.middleDIP],
+                  let middlePIP2p = middlePoints2[.middlePIP],
+                  let middleMCP2p = middlePoints2[.middleMCP]
             else
             {
                 return
             }
             
-            guard let middleTip = middlePoints[.middleTip], let middleDIP = middlePoints[.middleDIP], let middlePIP = middlePoints[.middlePIP], let middleMCP = middlePoints[.middleMCP]
+            // Ring fingers for both hands
+            guard let ringTip1p = ringPoints[.ringTip],
+                  let ringDIP1p = ringPoints[.ringDIP],
+                  let ringPIP1p = ringPoints[.ringPIP],
+                  let ringMCP1p = ringPoints[.ringMCP]
+            else
+            {
+                return
+            }
+            guard let ringTip2p = ringPoints2[.ringTip],
+                  let ringDIP2p = ringPoints2[.ringDIP],
+                  let ringPIP2p = ringPoints2[.ringPIP],
+                  let ringMCP2p = ringPoints2[.ringMCP]
             else
             {
                 return
             }
             
-            guard let ringTip = ringPoints[.ringTip], let ringDIP = ringPoints[.ringDIP], let ringPIP = ringPoints[.ringPIP], let ringMCP = ringPoints[.ringMCP]
+            // Little fingers for both hands
+            guard let littleTip1p = littlePoints[.littleTip],
+                  let littleDIP1p = littlePoints[.littleDIP],
+                  let littlePIP1p = littlePoints[.littlePIP],
+                  let littleMCP1p = littlePoints[.littleMCP]
+            else
+            {
+                return
+            }
+            guard let littleTip2p = littlePoints2[.littleTip],
+                  let littleDIP2p = littlePoints2[.littleDIP],
+                  let littlePIP2p = littlePoints2[.littlePIP],
+                  let littleMCP2p = littlePoints2[.littleMCP]
             else
             {
                 return
             }
             
-            guard let pinkyTip = pinkyPoints[.littleTip], let pinkyDIP = pinkyPoints[.littleDIP], let pinkyPIP = pinkyPoints[.littlePIP], let pinkyMCP = pinkyPoints[.littleMCP]
+            
+            
+            // Get the confidence level for all points, exclude if it's below 30%
+            guard thumbTipPoint.confidence > 0.3 &&
+                    thumbBasePoint.confidence > 0.3 &&
+                    thumbIP_p.confidence > 0.3 &&
+                    thumbMP_p.confidence > 0.3
+            else
+            {
+                return
+            }
+            guard thumbTipPoint2.confidence > 0.3 && 
+                    thumbBasePoint2.confidence > 0.3 &&
+                    thumbIP_p2.confidence > 0.3 &&
+                    thumbMP_p2.confidence > 0.3
             else
             {
                 return
             }
             
+
+            guard indexTip1p.confidence > 0.3
+                    && indexDIP1p.confidence > 0.3
+                    && indexPIP1p.confidence > 0.3
+                    && indexMCP1p.confidence > 0.3
+            else
+            {
+                return
+            }
+            guard indexTip2p.confidence > 0.3 &&
+                    indexDIP2p.confidence > 0.3 &&
+                    indexPIP2p.confidence > 0.3 &&
+                    indexMCP2p.confidence > 0.3
+            else
+            {
+                return
+            }
+
+            guard ringTip1p.confidence > 0.3 &&
+                    ringDIP1p.confidence > 0.3 &&
+                    ringPIP1p.confidence > 0.3 &&
+                    ringMCP1p.confidence > 0.3
+            else
+            {
+                return
+            }
+            guard ringTip2p.confidence > 0.3 &&
+                    ringDIP2p.confidence > 0.3 &&
+                    ringPIP2p.confidence > 0.3 &&
+                    ringMCP2p.confidence > 0.3
+            else
+            {
+                return
+            }
             
             // Ignore low confidence points.
-            guard thumbTipPoint.confidence > 0.3 && thumbBasePoint.confidence > 0.3 && thumbIP_p.confidence > 0.3 && thumbMP_p.confidence > 0.3
+            guard middleTip1p.confidence > 0.3 &&
+                    middleDIP1p.confidence > 0.3 &&
+                    middlePIP1p.confidence > 0.3 &&
+                    middleMCP1p.confidence > 0.3
+            else
+            {
+                return
+            }
+            guard middleTip2p.confidence > 0.3 &&
+                    middleDIP2p.confidence > 0.3 &&
+                    middlePIP2p.confidence > 0.3 &&
+                    middleMCP2p.confidence > 0.3
             else
             {
                 return
             }
             
-            // Ignore low confidence points.
-            guard thumbTipPoint2.confidence > 0.3 && thumbBasePoint2.confidence > 0.3 && thumbIP_p2.confidence > 0.3 && thumbMP_p2.confidence > 0.3
+            guard littleTip1p.confidence > 0.3 &&
+                    littleDIP1p.confidence > 0.3 &&
+                    littlePIP1p.confidence > 0.3 &&
+                    littleMCP1p.confidence > 0.3
             else
             {
                 return
             }
-            
-            // Ignore low confidence points.
-            guard indexTip.confidence > 0.3 && indexDIP.confidence > 0.3 && indexPIP.confidence > 0.3 && indexMCP.confidence > 0.3
-            else
-            {
-                return
-            }
-            // Ignore low confidence points.
-            guard indexTipT.confidence > 0.3 && indexDIPT.confidence > 0.3 && indexPIPT.confidence > 0.3 && indexMCPT.confidence > 0.3
-            else
-            {
-                return
-            }
-            
-            // Ignore low confidence points.
-            guard ringTip.confidence > 0.3 && ringDIP.confidence > 0.3 && ringPIP.confidence > 0.3 && ringMCP.confidence > 0.3
-            else
-            {
-                return
-            }
-            
-            // Ignore low confidence points.
-            guard middleTip.confidence > 0.3 && middleDIP.confidence > 0.3 && middlePIP.confidence > 0.3 && middleMCP.confidence > 0.3
-            else
-            {
-                return
-            }
-            
-            // Ignore low confidence points.
-            guard pinkyTip.confidence > 0.3 && pinkyDIP.confidence > 0.3 && pinkyPIP.confidence > 0.3 && pinkyMCP.confidence > 0.3
+            guard littleTip2p.confidence > 0.3 &&
+                    littleDIP2p.confidence > 0.3 &&
+                    littlePIP2p.confidence > 0.3 &&
+                    littleMCP2p.confidence > 0.3
             else
             {
                 return
@@ -351,15 +577,45 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             thumbMP2 = CGPoint(x: thumbMP_p2.location.x, y: 1 - thumbMP_p2.location.y)
             thumbBase2 = CGPoint(x: thumbBasePoint2.location.x, y: 1 - thumbBasePoint2.location.y)
             
-            indexTip1 = CGPoint(x: indexTip.location.x, y: 1 - indexTip.location.y)
-            indexDIP1 = CGPoint(x: indexDIP.location.x, y: 1 - indexDIP.location.y)
-            indexPIP1 = CGPoint(x: indexPIP.location.x, y: 1 - indexPIP.location.y)
-            indexMCP1 = CGPoint(x: indexMCP.location.x, y: 1 - indexMCP.location.y)
+            indexTip1 = CGPoint(x: indexTip1p.location.x, y: 1 - indexTip1p.location.y)
+            indexDIP1 = CGPoint(x: indexDIP1p.location.x, y: 1 - indexDIP1p.location.y)
+            indexPIP1 = CGPoint(x: indexPIP1p.location.x, y: 1 - indexPIP1p.location.y)
+            indexMCP1 = CGPoint(x: indexMCP1p.location.x, y: 1 - indexMCP1p.location.y)
             
-            indexTip2 = CGPoint(x: indexTipT.location.x, y: 1 - indexTipT.location.y)
-            indexDIP2 = CGPoint(x: indexDIPT.location.x, y: 1 - indexDIPT.location.y)
-            indexPIP2 = CGPoint(x: indexPIPT.location.x, y: 1 - indexPIPT.location.y)
-            indexMCP2 = CGPoint(x: indexMCPT.location.x, y: 1 - indexMCPT.location.y)
+            indexTip2 = CGPoint(x: indexTip2p.location.x, y: 1 - indexTip2p.location.y)
+            indexDIP2 = CGPoint(x: indexDIP2p.location.x, y: 1 - indexDIP2p.location.y)
+            indexPIP2 = CGPoint(x: indexPIP2p.location.x, y: 1 - indexPIP2p.location.y)
+            indexMCP2 = CGPoint(x: indexMCP2p.location.x, y: 1 - indexMCP2p.location.y)
+            
+            middleTip1 = CGPoint(x: middleTip1p.location.x, y: 1 - middleTip1p.location.y)
+            middleDIP1 = CGPoint(x: middleDIP1p.location.x, y: 1 - middleDIP1p.location.y)
+            middlePIP1 = CGPoint(x: middlePIP1p.location.x, y: 1 - middlePIP1p.location.y)
+            middleMCP1 = CGPoint(x: middleMCP1p.location.x, y: 1 - middleMCP1p.location.y)
+            
+            middleTip2 = CGPoint(x: middleTip2p.location.x, y: 1 - middleTip2p.location.y)
+            middleDIP2 = CGPoint(x: middleDIP2p.location.x, y: 1 - middleDIP2p.location.y)
+            middlePIP2 = CGPoint(x: middlePIP2p.location.x, y: 1 - middlePIP2p.location.y)
+            middleMCP2 = CGPoint(x: middleMCP2p.location.x, y: 1 - middleMCP2p.location.y)
+            
+            ringTip1 = CGPoint(x: ringTip1p.location.x, y: 1 - ringTip1p.location.y)
+            ringDIP1 = CGPoint(x: ringDIP1p.location.x, y: 1 - ringDIP1p.location.y)
+            ringPIP1 = CGPoint(x: ringPIP1p.location.x, y: 1 - ringPIP1p.location.y)
+            ringMCP1 = CGPoint(x: ringMCP1p.location.x, y: 1 - ringMCP1p.location.y)
+            
+            ringTip2 = CGPoint(x: ringTip2p.location.x, y: 1 - ringTip2p.location.y)
+            ringDIP2 = CGPoint(x: ringDIP2p.location.x, y: 1 - ringDIP2p.location.y)
+            ringPIP2 = CGPoint(x: ringPIP2p.location.x, y: 1 - ringPIP2p.location.y)
+            ringMCP2 = CGPoint(x: ringMCP2p.location.x, y: 1 - ringMCP2p.location.y)
+            
+            littleTip1 = CGPoint(x: littleTip1p.location.x, y: 1 - littleTip1p.location.y)
+            littleDIP1 = CGPoint(x: littleDIP1p.location.x, y: 1 - littleDIP1p.location.y)
+            littlePIP1 = CGPoint(x: littlePIP1p.location.x, y: 1 - littlePIP1p.location.y)
+            littleMCP1 = CGPoint(x: littleMCP1p.location.x, y: 1 - littleMCP1p.location.y)
+            
+            littleTip2 = CGPoint(x: littleTip2p.location.x, y: 1 - littleTip2p.location.y)
+            littleDIP2 = CGPoint(x: littleDIP2p.location.x, y: 1 - littleDIP2p.location.y)
+            littlePIP2 = CGPoint(x: littlePIP2p.location.x, y: 1 - littlePIP2p.location.y)
+            littleMCP2 = CGPoint(x: littleMCP2p.location.x, y: 1 - littleMCP2p.location.y)
             
         } catch {
             cameraFeedSession?.stopRunning()
