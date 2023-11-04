@@ -10,9 +10,7 @@ import Vision
 
 class CameraViewController: UIViewController
 {
-
     private var cameraView: CameraView { view as! CameraView }
-    
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
     private var cameraFeedSession: AVCaptureSession?
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
@@ -167,6 +165,7 @@ class CameraViewController: UIViewController
             {
                 gestureProcessor.reset()
             }
+            
             cameraView.showPoints([], color: .clear)
             return
         }
@@ -242,6 +241,7 @@ class CameraViewController: UIViewController
     {
         let pointsPair = gestureProcessor.lastProcessedPointsPair
         var tipsColor: UIColor
+        
         switch state
         {
             case .thumbDown:
@@ -270,7 +270,6 @@ class CameraViewController: UIViewController
                                pointsPair.littleTip2, pointsPair.littlePIP2, pointsPair.littleDIP2, pointsPair.littleMCP2],
                                color: tipsColor)
     }
-    
     
     @IBAction func handleGesture(_ gesture: UITapGestureRecognizer) {
         guard gesture.state == .ended else {
