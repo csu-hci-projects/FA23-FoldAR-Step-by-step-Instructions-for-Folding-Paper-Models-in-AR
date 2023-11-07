@@ -4,36 +4,144 @@
 //
 //  Created by Tom Cavey on 11/02/23.
 
+// Here's a list of all the links that made it possible to build this project.
+// A lot of code was used from Apple's documentation, as well as other tutorials,
+// sample code, and instructional websites. Without the help of the followoing links
+// none of this woul dbe possible to build this project:
+// (in no particular order)
+// MAIN EXAMPLE: https://developer.apple.com/documentation/vision/detecting_hand_poses_with_vision
+// VERY GOOD CODE EXAMPLE: https://betterprogramming.pub/swipeless-tinder-using-ios-14-vision-hand-pose-estimation-64e5f00ce45c
+// https://patrickgatewood.com/arkit-research/tutorials/arkit-hello-world/tutorial.html
+// https://developer.apple.com/documentation/swiftui/gestures
+// https://www.youtube.com/watch?v=NAsQCNpodPI
+// https://github.com/JanSteinhauer/CoreMLRecognition/tree/main
+// https://developer.apple.com/documentation/scenekit/sceneview/options
+// https://developer.apple.com/documentation/scenekit/scnscenerendererdelegate
+// https://developer.apple.com/documentation/vision/vndetectdocumentsegmentationrequest
+// https://developer.apple.com/documentation/vision/vndetecthumanhandposerequest
+// https://medium.com/swift-india/saving-data-in-ios-part-2-a8c9f810d5c
+// https://developer.apple.com/documentation/swift/textoutputstream
+// https://developer.apple.com/documentation/foundation/filemanager/1410695-createfile
+// https://developer.apple.com/documentation/foundation/filemanager
+// https://www.swiftyplace.com/blog/file-manager-in-swift-reading-writing-and-deleting-files-and-directories
+// https://stackoverflow.com/questions/26989493/how-to-open-file-and-append-a-string-in-it-swift
+// https://developer.apple.com/forums/thread/90791
+// https://developer.apple.com/documentation/vision/detecting_human_body_poses_in_images
+// https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/ImplementingaContainerViewController.html
+// https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/index.html#//apple_ref/doc/uid/TP40007457-CH2-SW1
+// https://www.youtube.com/watch?v=AiKBxiHdFYo
+// https://betterprogramming.pub/new-in-ios-14-vision-contour-detection-68fd5849816e
+// https://developer.apple.com/documentation/vision
+// https://developer.apple.com/documentation/vision/building_a_feature-rich_app_for_sports_analysis
+// https://developer.apple.com/forums/thread/90791
+// https://developer.apple.com/documentation/appkit/nsview/1483783-addsubview
+
+
 import UIKit
 import AVFoundation
 import Vision
 
 class CameraViewController: UIViewController
 {
-
     private var cameraView: CameraView { view as! CameraView }
-    
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
     private var cameraFeedSession: AVCaptureSession?
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
     private var evidenceBuffer = [HandGestureProcessor.PointsPair]()
     private var lastObservationTimestamp = Date()
+    
+    // create a reference to the hand gesture processor
     private var gestureProcessor = HandGestureProcessor()
+    
+    // create label for stage timer
+    @IBOutlet weak var stageTimer: UILabel!
+    var timer: Timer?
+    var timerDuration = 10
+    
+    // TODO: create a stage label that shows which stage we are currently on
+    
+    // this is the story board created functions for button and button actions
+    // we tie this to the gestureProcessor.startCollection variable
+    // to enable and disable data collection mode
+    @IBOutlet weak var beginLogging: UIButton!
+    
+    @IBAction func beginButtonPressed(_ sender: UIButton)
+    {
+        if sender.currentTitle == "Start"
+        {
+            sender.setTitle("Stop", for: .normal)
+            sender.setBackgroundImage(UIImage(), for: .normal)
+            sender.setBackgroundImage(UIImage(), for: .highlighted)
+            sender.backgroundColor = UIColor.red
+            gestureProcessor.startCollection = true
+            startCountdown()
+        }
+        else
+        {
+            sender.setTitle("Start", for: .normal)
+            sender.setBackgroundImage(UIImage(), for: .normal)
+            sender.setBackgroundImage(UIImage(), for: .highlighted)
+            sender.backgroundColor = UIColor.green
+            gestureProcessor.startCollection = false
+            stopCountdown()
+        }
+    }
+    
+    // start countdown
+    func startCountdown()
+    {
+        timer?.invalidate()
+        timerDuration = 10
+        stageTimer.text = "\(timerDuration)s"
+
+        // Create and start a new timer
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateCountdown), userInfo: nil, repeats: true)
+    }
+
+    // updates the timer countdown label
+    @objc func updateCountdown()
+    {
+        timerDuration -= 1
+        
+        if timerDuration <= 0
+        {
+            timer?.invalidate()
+        }
+        
+        stageTimer.text = "\(timerDuration)s"
+    }
+    
+    // stop countdown
+    func stopCountdown()
+    {
+        timer?.invalidate()
+        stageTimer.text = "\(timerDuration)s"
+    }
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
-        handPoseRequest.maximumHandCount = 2
         
         // Add state change handler to hand gesture processor.
         gestureProcessor.didChangeStateClosure =
         {
-            [weak self] state in
-            self?.handleGestureStateChange(state: state)
+            [weak self] state in self?.handleGestureStateChange(state: state)
         }
-    }
+        
+        // set timer UI
+        stageTimer.font = UIFont.systemFont(ofSize: 36.0)
+        stageTimer.backgroundColor = .white
+        stageTimer.textColor = .black
+        stageTimer.textAlignment = .center
+        stageTimer.text = "Timer"
+        
+        // TODO: why does the button stay blue even with this here??
+//        beginLogging.setBackgroundImage(UIImage(named: "redBackgroundImage"), for: .normal)
+        
+        // TODO: Create another label that will show statistics from stage
 
+    }
+    
     override func viewDidAppear(_ animated: Bool)
     {
         super.viewDidAppear(animated)
@@ -104,11 +212,6 @@ class CameraViewController: UIViewController
     }
     
     // processPoints - IMPORTANT
-    // TODO: process points for all fingers + wrist
-//    func processPoints(thumbTip: CGPoint?, thumbBase: CGPoint?, thumbIP_p: CGPoint?, thumbMP_p: CGPoint?,
-//                       thumbTip2: CGPoint?, thumbBase2: CGPoint?, thumbIP_p2: CGPoint?, thumbMP_p2: CGPoint?,
-//                       indexTip1: CGPoint?, indexPIP1: CGPoint?, indexDIP1: CGPoint?, indexMCP1: CGPoint?,
-//                       indexTip2: CGPoint?, indexPIP2: CGPoint?, indexDIP2: CGPoint?, indexMCP2: CGPoint?)
     func processPoints(thumbPoints: [CGPoint?], thumbPoints2: [CGPoint?], indexPoints: [CGPoint?], indexPoints2: [CGPoint?],
                        middlePoints: [CGPoint?], middlePoints2: [CGPoint?], ringPoints: [CGPoint?], ringPoints2:[CGPoint?], littlePoints: [CGPoint?], littlePoints2: [CGPoint?])
     {
@@ -238,10 +341,13 @@ class CameraViewController: UIViewController
                                             littleTipPointConverted2, littlePIPPointConverted2, littleDIPPointConverted2, littleMCPPointConverted2))
     }
     
+
+    
     private func handleGestureStateChange(state: HandGestureProcessor.State)
     {
         let pointsPair = gestureProcessor.lastProcessedPointsPair
         var tipsColor: UIColor
+        
         switch state
         {
             case .thumbDown:
@@ -251,7 +357,7 @@ class CameraViewController: UIViewController
             case .thumbUp:
                 evidenceBuffer.append(pointsPair)
                 tipsColor = .green
-                
+            
             case .unknown:
                 evidenceBuffer.removeAll()
                 tipsColor = .black
@@ -270,7 +376,6 @@ class CameraViewController: UIViewController
                                pointsPair.littleTip2, pointsPair.littlePIP2, pointsPair.littleDIP2, pointsPair.littleMCP2],
                                color: tipsColor)
     }
-    
     
     @IBAction func handleGesture(_ gesture: UITapGestureRecognizer) {
         guard gesture.state == .ended else {

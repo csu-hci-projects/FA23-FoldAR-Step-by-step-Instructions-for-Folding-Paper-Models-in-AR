@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0800ECC62AF9A89700BEA7A2 /* CSU-Ram-357-617.png in Resources */ = {isa = PBXBuildFile; fileRef = 0800ECC52AF9A89700BEA7A2 /* CSU-Ram-357-617.png */; };
 		C475655D248AEBD900F111B8 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475655A248AEBD800F111B8 /* CameraView.swift */; };
 		C475655E248AEBD900F111B8 /* HandGestureProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475655B248AEBD800F111B8 /* HandGestureProcessor.swift */; };
 		C475655F248AEBD900F111B8 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475655C248AEBD900F111B8 /* CameraViewController.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0800ECC52AF9A89700BEA7A2 /* CSU-Ram-357-617.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CSU-Ram-357-617.png"; sourceTree = "<group>"; };
 		72CC35B8245EF9E709BBCA67 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		C475655A248AEBD800F111B8 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		C475655B248AEBD800F111B8 /* HandGestureProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandGestureProcessor.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 				C4EB82F3248AEB7B00CD7D41 /* Assets.xcassets */,
 				C4756560248AEC4100F111B8 /* FoldAR_4.entitlements */,
 				C4EB82F8248AEB7B00CD7D41 /* Info.plist */,
+				0800ECC52AF9A89700BEA7A2 /* CSU-Ram-357-617.png */,
 			);
 			path = FoldAR_4;
 			sourceTree = "<group>";
@@ -145,6 +148,7 @@
 			files = (
 				C4EB82F7248AEB7B00CD7D41 /* LaunchScreen.storyboard in Resources */,
 				C4EB82F4248AEB7B00CD7D41 /* Assets.xcassets in Resources */,
+				0800ECC62AF9A89700BEA7A2 /* CSU-Ram-357-617.png in Resources */,
 				C4EB82F2248AEB7B00CD7D41 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
