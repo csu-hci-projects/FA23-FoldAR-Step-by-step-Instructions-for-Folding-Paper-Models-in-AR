@@ -36,6 +36,9 @@
 // https://developer.apple.com/forums/thread/90791
 // https://developer.apple.com/documentation/appkit/nsview/1483783-addsubview
 
+// rotating to landscape
+// https://stackoverflow.com/questions/38894031/swift-how-to-detect-orientation-changes
+
 
 import UIKit
 import AVFoundation
@@ -127,6 +130,38 @@ class CameraViewController: UIViewController
     {
         cameraFeedSession?.stopRunning()
         super.viewWillDisappear(animated)
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator)
+    {
+        super.viewWillTransition(to: size, with: coordinator)
+
+        if let connection = self.cameraView.previewLayer.connection
+        {
+            let newOrientation: AVCaptureVideoOrientation
+
+            if UIDevice.current.orientation.isLandscape
+            {
+                // supporst both left and right landscape.
+                if UIDevice.current.orientation == .landscapeLeft
+                {
+                    newOrientation = .landscapeRight
+                }
+                else
+                {
+                    newOrientation = .landscapeLeft
+                }
+            }
+            else
+            {
+                newOrientation = .portrait
+            }
+
+            if connection.isVideoOrientationSupported
+            {
+                connection.videoOrientation = newOrientation
+            }
+        }
     }
     
     func setupAVSession() throws

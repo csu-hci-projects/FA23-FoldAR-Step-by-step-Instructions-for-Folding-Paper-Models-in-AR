@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSFileProviderDomainUsageDescription</key>
-	<string>&quot;more docs folders&quot;</string>
-	<key>NSDocumentsFolderUsageDescription</key>
-	<string>&quot;Using docs folder&quot;</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -26,6 +22,10 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>This application uses the camera to demonstrate new Vision technology.</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>"Using docs folder"</string>
+	<key>NSFileProviderDomainUsageDescription</key>
+	<string>"more docs folders"</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -59,10 +59,8 @@
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 </dict>
