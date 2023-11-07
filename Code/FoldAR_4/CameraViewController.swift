@@ -53,69 +53,44 @@ class CameraViewController: UIViewController
     // create a reference to the hand gesture processor
     private var gestureProcessor = HandGestureProcessor()
     
-    // create label for stage timer
-    @IBOutlet weak var stageTimer: UILabel!
-    var timer: Timer?
-    var timerDuration = 10
-    
-    // TODO: create a stage label that shows which stage we are currently on
-    
     // this is the story board created functions for button and button actions
     // we tie this to the gestureProcessor.startCollection variable
     // to enable and disable data collection mode
     @IBOutlet weak var beginLogging: UIButton!
+    @IBOutlet weak var nameValue: UITextField!
+    
+    var savedName: String = ""
+    var switchState: Int = 0
+    
+    @IBOutlet weak var fastAccSwitch: UISegmentedControl!
     
     @IBAction func beginButtonPressed(_ sender: UIButton)
     {
         if sender.currentTitle == "Start"
         {
+            if let text = nameValue.text
+            {
+                savedName = text
+                print("Saved text: \(savedName)")
+                nameValue.resignFirstResponder()
+                gestureProcessor.savedName = savedName
+            }
+            
+            // fast / accurate switch
+            switchState = fastAccSwitch.selectedSegmentIndex
+            print(switchState)
+            gestureProcessor.switchState = switchState
+            
             sender.setTitle("Stop", for: .normal)
-            sender.setBackgroundImage(UIImage(), for: .normal)
-            sender.setBackgroundImage(UIImage(), for: .highlighted)
             sender.backgroundColor = UIColor.red
             gestureProcessor.startCollection = true
-            startCountdown()
         }
         else
         {
             sender.setTitle("Start", for: .normal)
-            sender.setBackgroundImage(UIImage(), for: .normal)
-            sender.setBackgroundImage(UIImage(), for: .highlighted)
             sender.backgroundColor = UIColor.green
             gestureProcessor.startCollection = false
-            stopCountdown()
         }
-    }
-    
-    // start countdown
-    func startCountdown()
-    {
-        timer?.invalidate()
-        timerDuration = 10
-        stageTimer.text = "\(timerDuration)s"
-
-        // Create and start a new timer
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateCountdown), userInfo: nil, repeats: true)
-    }
-
-    // updates the timer countdown label
-    @objc func updateCountdown()
-    {
-        timerDuration -= 1
-        
-        if timerDuration <= 0
-        {
-            timer?.invalidate()
-        }
-        
-        stageTimer.text = "\(timerDuration)s"
-    }
-    
-    // stop countdown
-    func stopCountdown()
-    {
-        timer?.invalidate()
-        stageTimer.text = "\(timerDuration)s"
     }
     
     override func viewDidLoad()
@@ -125,21 +100,8 @@ class CameraViewController: UIViewController
         // Add state change handler to hand gesture processor.
         gestureProcessor.didChangeStateClosure =
         {
-            [weak self] state in self?.handleGestureStateChange(state: state)
+            [weak self] state in self?.handleGestureStateChange()
         }
-        
-        // set timer UI
-        stageTimer.font = UIFont.systemFont(ofSize: 36.0)
-        stageTimer.backgroundColor = .white
-        stageTimer.textColor = .black
-        stageTimer.textAlignment = .center
-        stageTimer.text = "Timer"
-        
-        // TODO: why does the button stay blue even with this here??
-//        beginLogging.setBackgroundImage(UIImage(named: "redBackgroundImage"), for: .normal)
-        
-        // TODO: Create another label that will show statistics from stage
-
     }
     
     override func viewDidAppear(_ animated: Bool)
@@ -265,11 +227,6 @@ class CameraViewController: UIViewController
         guard let thumbPoint = thumbTip, let basePoint = thumbBase, let tIPpoint = thumbIP_p, let tMPpoint = thumbMP_p
         else
         {
-            // If there were no observations for more than 2 seconds reset gesture processor.
-            if Date().timeIntervalSince(lastObservationTimestamp) > 2
-            {
-                gestureProcessor.reset()
-            }
             cameraView.showPoints([], color: .clear)
             return
         }
@@ -341,27 +298,11 @@ class CameraViewController: UIViewController
                                             littleTipPointConverted2, littlePIPPointConverted2, littleDIPPointConverted2, littleMCPPointConverted2))
     }
     
-
     
-    private func handleGestureStateChange(state: HandGestureProcessor.State)
+    
+    private func handleGestureStateChange()
     {
         let pointsPair = gestureProcessor.lastProcessedPointsPair
-        var tipsColor: UIColor
-        
-        switch state
-        {
-            case .thumbDown:
-                evidenceBuffer.append(pointsPair)
-                tipsColor = .red
-                
-            case .thumbUp:
-                evidenceBuffer.append(pointsPair)
-                tipsColor = .green
-            
-            case .unknown:
-                evidenceBuffer.removeAll()
-                tipsColor = .black
-        }
         
         // this is what renders the points on the live view
         cameraView.showPoints([pointsPair.thumbTip, pointsPair.thumbBase, pointsPair.thumbIP, pointsPair.thumbMP,
@@ -374,14 +315,7 @@ class CameraViewController: UIViewController
                                pointsPair.ringTip2, pointsPair.ringPIP2, pointsPair.ringDIP2, pointsPair.ringMCP2,
                                pointsPair.littleTip, pointsPair.littlePIP, pointsPair.littleDIP, pointsPair.littleMCP,
                                pointsPair.littleTip2, pointsPair.littlePIP2, pointsPair.littleDIP2, pointsPair.littleMCP2],
-                               color: tipsColor)
-    }
-    
-    @IBAction func handleGesture(_ gesture: UITapGestureRecognizer) {
-        guard gesture.state == .ended else {
-            return
-        }
-        evidenceBuffer.removeAll()
+                              color: .green)
     }
 }
 

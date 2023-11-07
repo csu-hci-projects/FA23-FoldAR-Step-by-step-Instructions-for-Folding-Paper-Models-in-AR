@@ -10,6 +10,10 @@ import UIKit
 class HandGestureProcessor
 {
     var startCollection = false
+    var savedName = "none"
+    var switchState = 0
+    private var frameCounter = 0
+    private let writeInterval = 5
     
     enum State
     {
@@ -35,12 +39,6 @@ class HandGestureProcessor
         }
     }
     
-    private var thumbUpEvidenceCounter = 0
-    private var thumbDownEvidenceCounter = 0
-    private var frameCounter = 0
-    private let evidenceCounterStateTrigger: Int
-    private let writeInterval = 5
-    
     var didChangeStateClosure: ((State) -> Void)?
     private (set) var lastProcessedPointsPair = PointsPair(.zero, .zero, .zero, .zero,
                                                            .zero, .zero, .zero, .zero,
@@ -53,38 +51,10 @@ class HandGestureProcessor
                                                            .zero, .zero, .zero, .zero,
                                                            .zero, .zero, .zero, .zero)
     
-    init(evidenceCounterStateTrigger: Int = 3)
-    {
-        self.evidenceCounterStateTrigger = evidenceCounterStateTrigger
-    }
-    
-    func reset() {
-        state = .unknown
-        thumbUpEvidenceCounter = 0
-        thumbDownEvidenceCounter = 0
-    }
-    
     func processPointsPair(_ pointsPair: PointsPair)
     {
         lastProcessedPointsPair = pointsPair
-        
-        // thumbs up or thumbs down decision
-        let position = pointsPair.thumbTip.y - pointsPair.thumbBase.y
-        
-        if position < 0
-        {
-            thumbUpEvidenceCounter += 1
-            thumbDownEvidenceCounter = 0
-            
-            state = (thumbUpEvidenceCounter >= evidenceCounterStateTrigger) ? .thumbUp : .thumbUp
-        }
-        else
-        {
-            thumbDownEvidenceCounter += 1
-            thumbUpEvidenceCounter = 0
-            
-            state = (thumbDownEvidenceCounter >= evidenceCounterStateTrigger) ? .thumbDown : .thumbDown
-        }
+        state = .unknown
         
         // This stores the captured data in the Documents folder that is accessible via Xcode.
         // Because this app is sandboxed, the only way to get the data is through the following menu:
@@ -100,7 +70,7 @@ class HandGestureProcessor
             {
                 if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
                 {
-                    let fileURL = documentsURL.appendingPathComponent("sessionData4.txt")
+                    let fileURL = documentsURL.appendingPathComponent("sessionData5.txt")
                     
                     if let outputStream = OutputStream(url: fileURL, append: true)
                     {
@@ -108,6 +78,8 @@ class HandGestureProcessor
                         var text = ""
                         
                         // put timestamp in here!
+                        text += "Name: \(savedName) Mode: \(switchState) "
+                        
                         let timestamp = Int(Date().timeIntervalSince1970 * 1000)
                         text += "Timestamp: \(timestamp)\n"
                         text += "thumbTip.x: \(pointsPair.thumbTip.x), thumbTip.y: \(pointsPair.thumbTip.y)\n"
