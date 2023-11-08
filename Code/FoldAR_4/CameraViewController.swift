@@ -77,14 +77,13 @@ class CameraViewController: UIViewController
             if let text = nameValue.text
             {
                 savedName = text
-                print("Saved text: \(savedName)")
                 nameValue.resignFirstResponder()
                 gestureProcessor.savedName = savedName
+                print("Recording started. Participant ID: \(savedName). Mode: \(switchState).")
             }
             
-            // fast / accurate switch
+            // full vision/blocked hands/blindfold switch
             switchState = fastAccSwitch.selectedSegmentIndex
-            print(switchState)
             gestureProcessor.switchState = switchState
             
             sender.setTitle("STOP", for: .normal)
@@ -96,6 +95,8 @@ class CameraViewController: UIViewController
             sender.setTitle("START", for: .normal)
             sender.backgroundColor = UIColor.green
             gestureProcessor.startCollection = false
+            gestureProcessor.frameCounter = 0
+            print("Recording stopped.")
         }
     }
     
@@ -343,7 +344,7 @@ class CameraViewController: UIViewController
                                            ringTipPointConverted, ringPIPPointConverted, ringDIPPointConverted, ringMCPPointConverted,
                                            ringTipPointConverted2, ringPIPPointConverted2, ringDIPPointConverted2, ringMCPPointConverted2,
                                            littleTipPointConverted, littlePIPPointConverted, littleDIPPointConverted, littleMCPPointConverted,
-                                           littleTipPointConverted2, littlePIPPointConverted2, littleDIPPointConverted2, littleMCPPointConverted2))
+                                           littleTipPointConverted2, littlePIPPointConverted2, littleDIPPointConverted2, littleMCPPointConverted2)) // Messy, but works and no noticeable slowdown
     }
     
     
