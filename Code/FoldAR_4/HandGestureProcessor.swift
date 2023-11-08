@@ -13,11 +13,11 @@ class HandGestureProcessor
     var startCollection = false
     var savedName = "none"
     var switchState = 0
-    private var frameCounter = 0
+    var frameCounter = 0
     private let writeInterval = 5
     
     
-    private let headers = "pid, mode, frame, timestamp, thumbTip.x, thumbTip.y, thumbIP.x, thumbIP.y, thumbMP.x, thumbMP.y, thumbCMC.x, thumbCMC.y, thumbTip2.x, thumbTip2.y, thumbIP2.x, thumbIP2.y, thumbMP2.x, thumbMP2.y, thumbCMC2.x, thumbCMC2.y, indexTip.x, indexTip.y, indexPIP.x, indexPIP.y, indexDIP.x, indexDIP.y, indexMCP.x, indexMCP.y, indexTip2.x, indexTip2.y, indexPIP2.x, indexPIP2.y, indexDIP2.x, indexDIP2.y, indexMCP2.x, indexMCP2.y, middleTip.x, middleTip.y, middlePIP.x, middlePIP.y, middleDIP.x, middleDIP.y, middleMCP.x, middleMCP.y, middleTip2.x, middleTip2.y, middlePIP2.x, middlePIP2.y, middleDIP2.x, middleDIP2.y, middleMCP2.x, middleMCP2.y, ringTip.x, ringTip.y, ringPIP.x, ringPIP.y, ringDIP.x, ringDIP.y, ringMCP.x, ringMCP.y, ringTip2.x, ringTip2.y, ringPIP2.x, ringPIP2.y, ringDIP2.x, ringDIP2.y, ringMCP2.x, ringMCP2.y, littleTip.x, littleTip.y, littlePIP.x, littlePIP.y, littleDIP.x, littleDIP.y, littleMCP.x, littleMCP.y, littleTip2.x, littleTip2.y, littlePIP2.x, littlePIP2.y, littleDIP2.x, littleDIP2.y, littleMCP2.x, littleMCP2.y"
+    private let headers = "pid, mode, frame, date, time (MST), thumbTip.x, thumbTip.y, thumbIP.x, thumbIP.y, thumbMP.x, thumbMP.y, thumbCMC.x, thumbCMC.y, thumbTip2.x, thumbTip2.y, thumbIP2.x, thumbIP2.y, thumbMP2.x, thumbMP2.y, thumbCMC2.x, thumbCMC2.y, indexTip.x, indexTip.y, indexPIP.x, indexPIP.y, indexDIP.x, indexDIP.y, indexMCP.x, indexMCP.y, indexTip2.x, indexTip2.y, indexPIP2.x, indexPIP2.y, indexDIP2.x, indexDIP2.y, indexMCP2.x, indexMCP2.y, middleTip.x, middleTip.y, middlePIP.x, middlePIP.y, middleDIP.x, middleDIP.y, middleMCP.x, middleMCP.y, middleTip2.x, middleTip2.y, middlePIP2.x, middlePIP2.y, middleDIP2.x, middleDIP2.y, middleMCP2.x, middleMCP2.y, ringTip.x, ringTip.y, ringPIP.x, ringPIP.y, ringDIP.x, ringDIP.y, ringMCP.x, ringMCP.y, ringTip2.x, ringTip2.y, ringPIP2.x, ringPIP2.y, ringDIP2.x, ringDIP2.y, ringMCP2.x, ringMCP2.y, littleTip.x, littleTip.y, littlePIP.x, littlePIP.y, littleDIP.x, littleDIP.y, littleMCP.x, littleMCP.y, littleTip2.x, littleTip2.y, littlePIP2.x, littlePIP2.y, littleDIP2.x, littleDIP2.y, littleMCP2.x, littleMCP2.y\n"
     
     
     enum State
@@ -63,8 +63,6 @@ class HandGestureProcessor
         lastProcessedPointsPair = pp
         state = .unknown
         
-        print(startCollection)
-        
         // This stores the captured data in the Documents folder that is accessible via Xcode.
         // Because this app is sandboxed, the only way to get the data is through the following menu:
         // Window -> Devices and Simulators -> Find name of the app -> click 3 dots with circle ->
@@ -77,15 +75,14 @@ class HandGestureProcessor
             frameCounter += 1
             if (frameCounter % writeInterval) == 0
             {
-                var text = generateData(savedName: savedName, mode: switchState, frame: frameCounter, pointsPair: pointsPair)
+                let text = generateData(savedName: savedName, mode: switchState, frame: frameCounter-writeInterval, pointsPair: pointsPair)
                 // Generate text
                 
-                writeToFile(fileName: "sessionData.csv", data: text, headers: headers)
+                writeToFile(fileName: "sessionData3.csv", data: text, headers: headers)
                 
             }
         }
         else{
-            print("stopped")
             frameCounter = 0
         }
     }
@@ -108,16 +105,13 @@ class HandGestureProcessor
         default:
             modeName = ""
         }
-        var text = "\(pID), \(modeName), \(String(frame)), \(timestamp)"
+        var row = "\(pID), \(modeName), \(String(frame)), \(timestamp)"
         
-        for (index, value) in pointsPair.enumerated(){
-            text += ", \(value.x), \(value.y)"
+        for (_, value) in pointsPair.enumerated(){
+            row += ", \(value.x), \(value.y)"
         }
-        
-        print(text)
-        return text
-//        text += "\(pointsPair.thumbTip.x), \(pointsPair.thumbTip.y), \(pointsPair.thumbIP.x), ("
-        
+        row += "\n"
+        return row
     }
     
     func writeToFile(fileName:String, data:String, headers:String){
@@ -132,7 +126,7 @@ class HandGestureProcessor
                 writeData(fileURL: fileURL, data: headers, append: false)
                 
             }else{
-                print("File exists. Appending.")
+//                print("File exists. Appending.")
                 writeData(fileURL: fileURL, data: data, append: true)
             }
             
