@@ -38,7 +38,6 @@ class HandGestureProcessor
                             littleTip: CGPoint, littlePIP: CGPoint, littleDIP: CGPoint, littleMCP: CGPoint,
                             littleTip2: CGPoint, littlePIP2: CGPoint, littleDIP2: CGPoint, littleMCP2: CGPoint)
     
-//    typealias PointsPair = [CGPoint]
     
     private var state = State.unknown {
         didSet {
@@ -87,6 +86,7 @@ class HandGestureProcessor
         }
     }
     
+    // Parse hand/user/mode data into single log row
     func generateData(pID:String, mode: Int, frame:Int, pointsPair: [CGPoint]) -> String{
         let timestamp = Date.now.formatted()
         var row = "\(pID), \(String(mode)), \(String(frame)), \(timestamp)"
@@ -98,6 +98,7 @@ class HandGestureProcessor
         return row
     }
     
+    // Check if log file exists, add headers if not, write data if yes
     func writeToFile(fileName:String, data:String, headers:String){
         if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first{
             let fileURL = documentsURL.appendingPathComponent(fileName)
@@ -116,6 +117,8 @@ class HandGestureProcessor
             
         }
     }
+    
+    // Write data to a file
     func writeData(fileURL:URL, data:String, append:Bool){
         if let outputStream = OutputStream(url: fileURL, append: append){
             outputStream.open()
