@@ -76,10 +76,9 @@ class CameraViewController: UIViewController
         {
             if let text = nameValue.text
             {
-                savedName = text
+                savedName = text == "" || text == "ParticipantID" ? "none" : text
                 nameValue.resignFirstResponder()
                 gestureProcessor.savedName = savedName
-                print("Recording started. Participant ID: \(savedName). Mode: \(switchState).")
             }
             
             // full vision/blocked hands/blindfold switch
@@ -87,13 +86,16 @@ class CameraViewController: UIViewController
             gestureProcessor.switchState = switchState
             
             sender.setTitle("STOP", for: .normal)
-            sender.backgroundColor = UIColor.red
+            sender.tintColor = UIColor.red
+            sender.setTitleColor(UIColor.white, for: .normal)
             gestureProcessor.startCollection = true
+            print("Recording started. Participant ID: \(savedName). Mode: \(switchState).")
         }
         else
         {
             sender.setTitle("START", for: .normal)
-            sender.backgroundColor = UIColor.green
+            sender.tintColor = UIColor.green
+            sender.setTitleColor(UIColor.black, for: .normal)
             gestureProcessor.startCollection = false
             gestureProcessor.frameCounter = 0
             print("Recording stopped.")
