@@ -93,12 +93,14 @@ class CameraViewController: UIViewController
         }
         else
         {
+            if sender.currentTitle == "STOP" {
+                print("Recording stopped.")
+            }
             sender.setTitle("START", for: .normal)
             sender.tintColor = UIColor.green
             sender.setTitleColor(UIColor.black, for: .normal)
             gestureProcessor.startCollection = false
             gestureProcessor.frameCounter = 0
-            print("Recording stopped.")
         }
     }
     
