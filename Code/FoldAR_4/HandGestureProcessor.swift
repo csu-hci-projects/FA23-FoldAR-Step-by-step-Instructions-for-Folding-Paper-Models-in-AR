@@ -75,7 +75,7 @@ class HandGestureProcessor
             frameCounter += 1
             if (frameCounter % writeInterval) == 0
             {
-                let text = generateData(savedName: savedName, mode: switchState, frame: frameCounter-writeInterval, pointsPair: pointsPair)
+                let text = generateData(pID: savedName, mode: switchState, frame: frameCounter-writeInterval, pointsPair: pointsPair)
                 // Generate text
                 
                 writeToFile(fileName: "sessionData3.csv", data: text, headers: headers)
@@ -87,25 +87,9 @@ class HandGestureProcessor
         }
     }
     
-    func generateData(savedName:String, mode: Int, frame:Int, pointsPair: [CGPoint]) -> String{
-        var pID = "none"
-        if savedName != ""{
-            pID = savedName
-        }
-
+    func generateData(pID:String, mode: Int, frame:Int, pointsPair: [CGPoint]) -> String{
         let timestamp = Date.now.formatted()
-        var modeName = ""
-        switch mode {
-        case 0:
-            modeName = "full"
-        case 1:
-            modeName = "hands"
-        case 2:
-            modeName = "blind"
-        default:
-            modeName = ""
-        }
-        var row = "\(pID), \(modeName), \(String(frame)), \(timestamp)"
+        var row = "\(pID), \(String(mode)), \(String(frame)), \(timestamp)"
         
         for (_, value) in pointsPair.enumerated(){
             row += ", \(value.x), \(value.y)"
