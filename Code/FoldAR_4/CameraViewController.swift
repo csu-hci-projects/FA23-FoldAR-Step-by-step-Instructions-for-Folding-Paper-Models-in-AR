@@ -51,7 +51,7 @@ class CameraViewController: UIViewController
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
     private var cameraFeedSession: AVCaptureSession?
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
-    private var evidenceBuffer = [HandGestureProcessor.PointsPair]()
+    private var evidenceBuffer = [CGPoint]()
     private var lastObservationTimestamp = Date()
     
     private var minConfidence: Float = 0.3
@@ -65,7 +65,7 @@ class CameraViewController: UIViewController
     @IBOutlet weak var beginLogging: UIButton!
     @IBOutlet weak var nameValue: UITextField!
     
-    var savedName: String = ""
+    var savedName: String = "none"
     var switchState: Int = 0
     
     @IBOutlet weak var fastAccSwitch: UISegmentedControl!
@@ -324,7 +324,7 @@ class CameraViewController: UIViewController
         let littleMCPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: littleMCP2p!)
         
         // Process new points
-        gestureProcessor.processPointsPair((thumbPointConverted, basePointConverted, tIPPointConverted, tMPPointConverted,
+        gestureProcessor.processPointsPair([thumbPointConverted, basePointConverted, tIPPointConverted, tMPPointConverted,
                                             thumbPointConverted2, basePointConverted2, tIPPointConverted2, tMPPointConverted2,
                                             indexTipPointConverted, indexPIPPointConverted, indexDIPPointConverted, indexMCPPointConverted,
                                             indexTipPointConverted2, indexPIPPointConverted2, indexDIPPointConverted2, indexMCPPointConverted2,
@@ -333,7 +333,17 @@ class CameraViewController: UIViewController
                                             ringTipPointConverted, ringPIPPointConverted, ringDIPPointConverted, ringMCPPointConverted,
                                             ringTipPointConverted2, ringPIPPointConverted2, ringDIPPointConverted2, ringMCPPointConverted2,
                                             littleTipPointConverted, littlePIPPointConverted, littleDIPPointConverted, littleMCPPointConverted,
-                                            littleTipPointConverted2, littlePIPPointConverted2, littleDIPPointConverted2, littleMCPPointConverted2))
+                                            littleTipPointConverted2, littlePIPPointConverted2, littleDIPPointConverted2, littleMCPPointConverted2],
+                                           pp:(thumbPointConverted, basePointConverted, tIPPointConverted, tMPPointConverted,
+                                           thumbPointConverted2, basePointConverted2, tIPPointConverted2, tMPPointConverted2,
+                                           indexTipPointConverted, indexPIPPointConverted, indexDIPPointConverted, indexMCPPointConverted,
+                                           indexTipPointConverted2, indexPIPPointConverted2, indexDIPPointConverted2, indexMCPPointConverted2,
+                                           middleTipPointConverted, middlePIPPointConverted, middleDIPPointConverted, middleMCPPointConverted,
+                                           middleTipPointConverted2, middlePIPPointConverted2, middleDIPPointConverted2, middleMCPPointConverted2,
+                                           ringTipPointConverted, ringPIPPointConverted, ringDIPPointConverted, ringMCPPointConverted,
+                                           ringTipPointConverted2, ringPIPPointConverted2, ringDIPPointConverted2, ringMCPPointConverted2,
+                                           littleTipPointConverted, littlePIPPointConverted, littleDIPPointConverted, littleMCPPointConverted,
+                                           littleTipPointConverted2, littlePIPPointConverted2, littleDIPPointConverted2, littleMCPPointConverted2))
     }
     
     
