@@ -72,7 +72,7 @@ class CameraViewController: UIViewController
     
     @IBAction func beginButtonPressed(_ sender: UIButton)
     {
-        if sender.currentTitle == "Start"
+        if sender.currentTitle == "START"
         {
             if let text = nameValue.text
             {
@@ -87,13 +87,13 @@ class CameraViewController: UIViewController
             print(switchState)
             gestureProcessor.switchState = switchState
             
-            sender.setTitle("Stop", for: .normal)
+            sender.setTitle("STOP", for: .normal)
             sender.backgroundColor = UIColor.red
             gestureProcessor.startCollection = true
         }
         else
         {
-            sender.setTitle("Start", for: .normal)
+            sender.setTitle("START", for: .normal)
             sender.backgroundColor = UIColor.green
             gestureProcessor.startCollection = false
         }
