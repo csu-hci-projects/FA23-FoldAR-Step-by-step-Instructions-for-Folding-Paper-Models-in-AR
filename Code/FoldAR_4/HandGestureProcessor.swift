@@ -110,9 +110,10 @@ class HandGestureProcessor
             
             let path = fileURL.path
             let fm = FileManager.default
+            let fileNotFound = !fm.fileExists(atPath: path)
             
-            if !fm.fileExists(atPath: path) || resetFile {
-                if !fm.fileExists(atPath: path){
+            if fileNotFound || resetFile {
+                if fileNotFound {
                     print("File does not exist. Creating and writing headers.")
                 }
                 else{
