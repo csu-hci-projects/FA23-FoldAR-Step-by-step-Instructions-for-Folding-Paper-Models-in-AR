@@ -101,6 +101,7 @@ class CameraViewController: UIViewController
             sender.setTitleColor(UIColor.black, for: .normal)
             gestureProcessor.startCollection = false
             gestureProcessor.frameCounter = 0
+            gestureProcessor.resetFile = true
         }
     }
     
