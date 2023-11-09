@@ -1,8 +1,8 @@
 //
 //  CameraViewController.swift
-//  FoldAR_5
+//  FoldAR_4
 //
-//  Created by Tom Cavey on 11/02/23.
+//  Created by Tom Cavey & Tani Cath on 11/02/23.
 
 // Here's a list of all the links that made it possible to build this project.
 // A lot of code was used from Apple's documentation, as well as other tutorials,
@@ -46,12 +46,15 @@ import Vision
 
 class CameraViewController: UIViewController
 {
+    // CONSTANTS
     private var cameraView: CameraView { view as! CameraView }
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
     private var cameraFeedSession: AVCaptureSession?
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
-    private var evidenceBuffer = [HandGestureProcessor.PointsPair]()
+    private var evidenceBuffer = [CGPoint]()
     private var lastObservationTimestamp = Date()
+    
+    private var minConfidence: Float = 0.3
     
     // create a reference to the hand gesture processor
     private var gestureProcessor = HandGestureProcessor()
@@ -62,37 +65,42 @@ class CameraViewController: UIViewController
     @IBOutlet weak var beginLogging: UIButton!
     @IBOutlet weak var nameValue: UITextField!
     
-    var savedName: String = ""
+    var savedName: String = "none"
     var switchState: Int = 0
     
     @IBOutlet weak var fastAccSwitch: UISegmentedControl!
     
     @IBAction func beginButtonPressed(_ sender: UIButton)
     {
-        if sender.currentTitle == "Start"
+        if sender.currentTitle == "START"
         {
             if let text = nameValue.text
             {
-                savedName = text
-                print("Saved text: \(savedName)")
+                savedName = text == "" || text == "ParticipantID" ? "none" : text
                 nameValue.resignFirstResponder()
                 gestureProcessor.savedName = savedName
             }
             
-            // fast / accurate switch
+            // full vision/blocked hands/blindfold switch
             switchState = fastAccSwitch.selectedSegmentIndex
-            print(switchState)
             gestureProcessor.switchState = switchState
             
-            sender.setTitle("Stop", for: .normal)
-            sender.backgroundColor = UIColor.red
+            sender.setTitle("STOP", for: .normal)
+            sender.tintColor = UIColor.red
+            sender.setTitleColor(UIColor.white, for: .normal)
             gestureProcessor.startCollection = true
+            print("Recording started. Participant ID: \(savedName). Mode: \(switchState).")
         }
         else
         {
-            sender.setTitle("Start", for: .normal)
-            sender.backgroundColor = UIColor.green
+            if sender.currentTitle == "STOP" {
+                print("Recording stopped.")
+            }
+            sender.setTitle("START", for: .normal)
+            sender.tintColor = UIColor.green
+            sender.setTitleColor(UIColor.black, for: .normal)
             gestureProcessor.startCollection = false
+            gestureProcessor.frameCounter = 0
         }
     }
     
@@ -321,7 +329,7 @@ class CameraViewController: UIViewController
         let littleMCPPointConverted2 = previewLayer.layerPointConverted(fromCaptureDevicePoint: littleMCP2p!)
         
         // Process new points
-        gestureProcessor.processPointsPair((thumbPointConverted, basePointConverted, tIPPointConverted, tMPPointConverted,
+        gestureProcessor.processPointsPair([thumbPointConverted, basePointConverted, tIPPointConverted, tMPPointConverted,
                                             thumbPointConverted2, basePointConverted2, tIPPointConverted2, tMPPointConverted2,
                                             indexTipPointConverted, indexPIPPointConverted, indexDIPPointConverted, indexMCPPointConverted,
                                             indexTipPointConverted2, indexPIPPointConverted2, indexDIPPointConverted2, indexMCPPointConverted2,
@@ -330,7 +338,17 @@ class CameraViewController: UIViewController
                                             ringTipPointConverted, ringPIPPointConverted, ringDIPPointConverted, ringMCPPointConverted,
                                             ringTipPointConverted2, ringPIPPointConverted2, ringDIPPointConverted2, ringMCPPointConverted2,
                                             littleTipPointConverted, littlePIPPointConverted, littleDIPPointConverted, littleMCPPointConverted,
-                                            littleTipPointConverted2, littlePIPPointConverted2, littleDIPPointConverted2, littleMCPPointConverted2))
+                                            littleTipPointConverted2, littlePIPPointConverted2, littleDIPPointConverted2, littleMCPPointConverted2],
+                                           pp:(thumbPointConverted, basePointConverted, tIPPointConverted, tMPPointConverted,
+                                           thumbPointConverted2, basePointConverted2, tIPPointConverted2, tMPPointConverted2,
+                                           indexTipPointConverted, indexPIPPointConverted, indexDIPPointConverted, indexMCPPointConverted,
+                                           indexTipPointConverted2, indexPIPPointConverted2, indexDIPPointConverted2, indexMCPPointConverted2,
+                                           middleTipPointConverted, middlePIPPointConverted, middleDIPPointConverted, middleMCPPointConverted,
+                                           middleTipPointConverted2, middlePIPPointConverted2, middleDIPPointConverted2, middleMCPPointConverted2,
+                                           ringTipPointConverted, ringPIPPointConverted, ringDIPPointConverted, ringMCPPointConverted,
+                                           ringTipPointConverted2, ringPIPPointConverted2, ringDIPPointConverted2, ringMCPPointConverted2,
+                                           littleTipPointConverted, littlePIPPointConverted, littleDIPPointConverted, littleMCPPointConverted,
+                                           littleTipPointConverted2, littlePIPPointConverted2, littleDIPPointConverted2, littleMCPPointConverted2)) // Messy, but works and no noticeable slowdown
     }
     
     
@@ -553,88 +571,88 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate
             
             
             // Get the confidence level for all points, exclude if it's below 30%
-            guard thumbTipPoint.confidence > 0.3 &&
-                    thumbBasePoint.confidence > 0.3 &&
-                    thumbIP_p.confidence > 0.3 &&
-                    thumbMP_p.confidence > 0.3
+            guard thumbTipPoint.confidence > minConfidence &&
+                    thumbBasePoint.confidence > minConfidence &&
+                    thumbIP_p.confidence > minConfidence &&
+                    thumbMP_p.confidence > minConfidence
             else
             {
                 return
             }
-            guard thumbTipPoint2.confidence > 0.3 && 
-                    thumbBasePoint2.confidence > 0.3 &&
-                    thumbIP_p2.confidence > 0.3 &&
-                    thumbMP_p2.confidence > 0.3
+            guard thumbTipPoint2.confidence > minConfidence &&
+                    thumbBasePoint2.confidence > minConfidence &&
+                    thumbIP_p2.confidence > minConfidence &&
+                    thumbMP_p2.confidence > minConfidence
             else
             {
                 return
             }
             
 
-            guard indexTip1p.confidence > 0.3
-                    && indexDIP1p.confidence > 0.3
-                    && indexPIP1p.confidence > 0.3
-                    && indexMCP1p.confidence > 0.3
+            guard indexTip1p.confidence > minConfidence
+                    && indexDIP1p.confidence > minConfidence
+                    && indexPIP1p.confidence > minConfidence
+                    && indexMCP1p.confidence > minConfidence
             else
             {
                 return
             }
-            guard indexTip2p.confidence > 0.3 &&
-                    indexDIP2p.confidence > 0.3 &&
-                    indexPIP2p.confidence > 0.3 &&
-                    indexMCP2p.confidence > 0.3
+            guard indexTip2p.confidence > minConfidence &&
+                    indexDIP2p.confidence > minConfidence &&
+                    indexPIP2p.confidence > minConfidence &&
+                    indexMCP2p.confidence > minConfidence
             else
             {
                 return
             }
 
-            guard ringTip1p.confidence > 0.3 &&
-                    ringDIP1p.confidence > 0.3 &&
-                    ringPIP1p.confidence > 0.3 &&
-                    ringMCP1p.confidence > 0.3
+            guard ringTip1p.confidence > minConfidence &&
+                    ringDIP1p.confidence > minConfidence &&
+                    ringPIP1p.confidence > minConfidence &&
+                    ringMCP1p.confidence > minConfidence
             else
             {
                 return
             }
-            guard ringTip2p.confidence > 0.3 &&
-                    ringDIP2p.confidence > 0.3 &&
-                    ringPIP2p.confidence > 0.3 &&
-                    ringMCP2p.confidence > 0.3
+            guard ringTip2p.confidence > minConfidence &&
+                    ringDIP2p.confidence > minConfidence &&
+                    ringPIP2p.confidence > minConfidence &&
+                    ringMCP2p.confidence > minConfidence
             else
             {
                 return
             }
             
             // Ignore low confidence points.
-            guard middleTip1p.confidence > 0.3 &&
-                    middleDIP1p.confidence > 0.3 &&
-                    middlePIP1p.confidence > 0.3 &&
-                    middleMCP1p.confidence > 0.3
+            guard middleTip1p.confidence > minConfidence &&
+                    middleDIP1p.confidence > minConfidence &&
+                    middlePIP1p.confidence > minConfidence &&
+                    middleMCP1p.confidence > minConfidence
             else
             {
                 return
             }
-            guard middleTip2p.confidence > 0.3 &&
-                    middleDIP2p.confidence > 0.3 &&
-                    middlePIP2p.confidence > 0.3 &&
-                    middleMCP2p.confidence > 0.3
+            guard middleTip2p.confidence > minConfidence &&
+                    middleDIP2p.confidence > minConfidence &&
+                    middlePIP2p.confidence > minConfidence &&
+                    middleMCP2p.confidence > minConfidence
             else
             {
                 return
             }
             
-            guard littleTip1p.confidence > 0.3 &&
-                    littleDIP1p.confidence > 0.3 &&
-                    littlePIP1p.confidence > 0.3 &&
-                    littleMCP1p.confidence > 0.3
+            guard littleTip1p.confidence > minConfidence &&
+                    littleDIP1p.confidence > minConfidence &&
+                    littlePIP1p.confidence > minConfidence &&
+                    littleMCP1p.confidence > minConfidence
             else
             {
                 return
             }
-            guard littleTip2p.confidence > 0.3 &&
-                    littleDIP2p.confidence > 0.3 &&
-                    littlePIP2p.confidence > 0.3 &&
-                    littleMCP2p.confidence > 0.3
+            guard littleTip2p.confidence > minConfidence &&
+                    littleDIP2p.confidence > minConfidence &&
+                    littlePIP2p.confidence > minConfidence &&
+                    littleMCP2p.confidence > minConfidence
             else
             {
                 return
