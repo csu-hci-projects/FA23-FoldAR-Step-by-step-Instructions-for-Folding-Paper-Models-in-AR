@@ -14,6 +14,7 @@ class HandGestureProcessor
     var savedName = "none"
     var switchState = 0
     var frameCounter = 0
+    var resetFile = true
     private let writeInterval = 5
     
     
@@ -77,7 +78,7 @@ class HandGestureProcessor
                 let text = generateData(pID: savedName, mode: switchState, frame: frameCounter-writeInterval, pointsPair: pointsPair)
                 // Generate text
                 
-                writeToFile(fileName: "sessionData.csv", data: text, headers: headers)
+                writeToFile(fileName: "sessionData-\(savedName)-\(String(switchState)).csv", data: text, headers: headers)
                 
             }
         }
@@ -110,9 +111,16 @@ class HandGestureProcessor
             let path = fileURL.path
             let fm = FileManager.default
             
-            if !fm.fileExists(atPath: path){
-                print("File does not exist. Creating and writing headers.")
-                writeData(fileURL: fileURL, data: headers, append: false)
+            if !fm.fileExists(atPath: path) || resetFile {
+                if !fm.fileExists(atPath: path){
+                    print("File does not exist. Creating and writing headers.")
+                }
+                else{
+                    print("Erasing file and writing headers.")
+                }
+                
+                writeData(fileURL: fileURL, data: headers+data, append: false)
+                resetFile = false
                 
             }else{
 //                print("File exists. Appending.")
