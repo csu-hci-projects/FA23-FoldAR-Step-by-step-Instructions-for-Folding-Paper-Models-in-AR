@@ -15,7 +15,7 @@ class HandGestureProcessor
     var switchState = 0
     var frameCounter = 0
     var resetFile = true
-    private let writeInterval = 5
+    private let writeInterval = 1
     
     
     private let headers = "pid, mode, frame, date, time, thumbTip.x, thumbTip.y, thumbIP.x, thumbIP.y, thumbMP.x, thumbMP.y, thumbCMC.x, thumbCMC.y, thumbTip2.x, thumbTip2.y, thumbIP2.x, thumbIP2.y, thumbMP2.x, thumbMP2.y, thumbCMC2.x, thumbCMC2.y, indexTip.x, indexTip.y, indexPIP.x, indexPIP.y, indexDIP.x, indexDIP.y, indexMCP.x, indexMCP.y, indexTip2.x, indexTip2.y, indexPIP2.x, indexPIP2.y, indexDIP2.x, indexDIP2.y, indexMCP2.x, indexMCP2.y, middleTip.x, middleTip.y, middlePIP.x, middlePIP.y, middleDIP.x, middleDIP.y, middleMCP.x, middleMCP.y, middleTip2.x, middleTip2.y, middlePIP2.x, middlePIP2.y, middleDIP2.x, middleDIP2.y, middleMCP2.x, middleMCP2.y, ringTip.x, ringTip.y, ringPIP.x, ringPIP.y, ringDIP.x, ringDIP.y, ringMCP.x, ringMCP.y, ringTip2.x, ringTip2.y, ringPIP2.x, ringPIP2.y, ringDIP2.x, ringDIP2.y, ringMCP2.x, ringMCP2.y, littleTip.x, littleTip.y, littlePIP.x, littlePIP.y, littleDIP.x, littleDIP.y, littleMCP.x, littleMCP.y, littleTip2.x, littleTip2.y, littlePIP2.x, littlePIP2.y, littleDIP2.x, littleDIP2.y, littleMCP2.x, littleMCP2.y\n"
