@@ -1,5 +1,6 @@
 CS 567: Introduction to 3D User Interfaces - FA23
 FoldAR: Gesture Analytics Using Apple Vision Framework
+Ian Brown, Tani Cath, Tom Cavey
 
 Repository Contents
 
