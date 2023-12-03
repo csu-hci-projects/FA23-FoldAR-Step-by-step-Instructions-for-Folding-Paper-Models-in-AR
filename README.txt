@@ -3,28 +3,27 @@ FoldAR: Gesture Analytics Using Apple Vision Framework
 
 Repository Contents
 
-    ├── FoldAR - Final Report.pdf
+    ├── FoldAR - Final Project Report.pdf
     ├── Latex Source
-    │   └── FoldAR - OverleafProject.zip
+    │   └── FoldAR - Final Project Report.zip
     ├── Literature Survey
     │   └── PDFs of all papers
-    ├── README.md (this file)
-    ├── Readme.txt
+    ├── README.md
+    ├── README.txt (this file)
     ├── Source Code
-    │   ├── Code
-    │   │   ├── Configuration (Xcode configuration files)
-    │   │   ├── FoldAR_4 (Xcode source files)
-    │   │   └── FoldAR_4.xcodeproj
-    │   └── Data
-    │       ├── sessionData (Data files from experiments)
-    │       ├── FoldAR_NumericAnalysis.ipynb
-    │       ├── FoldAR_SpatialAnalysis.ipynb
-    │       └── Images (plots saved from python notebooks)
-    │           ├── boxPlots
-    │           ├── meanDistances
-    │           ├── temporalPlots
-    │           ├── tipPathImages
-    │           └── userCompletionTimes
+    │   ├── Configuration (Xcode configuration files)
+    │   ├── Data
+    │   |   ├── FoldAR_NumericAnalysis.ipynb
+    │   |   ├── FoldAR_SpatialAnalysis.ipynb
+    │   |   ├── Images (plots saved from python notebooks)
+    │   |   |   ├── boxPlots
+    │   |   |   ├── meanDistances
+    │   |   |   ├── temporalPlots
+    │   |   |   ├── tipPathImages
+    │   |   |   └── userCompletionTimes
+    │   |   └── sessionData (Data files from experiments)
+    │   ├── FoldAR_4 (Xcode source files)
+    │   └── FoldAR_4.xcodeproj
     └── Videos
         ├── Demo+Code Video.mp4
         ├── Presentation Video.mp4
