@@ -26,9 +26,9 @@ Repository Contents
     │   ├── FoldAR_4 (Xcode source files)
     │   └── FoldAR_4.xcodeproj
     └── Videos
-        ├── Demo+Code Video.mp4
-        ├── Presentation Video.mp4
-        └── Short Video.mp4
+        ├── FoldAR - Demo+Code Video.mp4
+        ├── FoldAR - Presentation Video.mp4
+        └── FoldAR - Elevator Pitch (Quick Video).mp4
 
 
 
@@ -47,7 +47,7 @@ Instuctions to deploy and run application code onto local iOS device
         3. Navigate to the `Source Code` directory and launch `FoldAR_4.xcodeproj` in Xcode.
         4. In the Xcode project navigator, select the parent `FoldAR_4` project item, go to the "Signing & Capabilities" tab, and change the following settings:
             - From the "Team" dropdown menu, select the name/Apple account that is currently signed into Xcode.
-            - Rename the "Bundle Identifier" to use a unique ID, such as your GitHub username, using the following format: `userID.FoldAR_4`
+            - Rename the "Bundle Identifier" to use a unique ID, such as your GitHub username, using the following format: `userID.FoldAR-4`
         5. Connect your iOS device to the computer using a cable rated for data transfer and ensure that it is listed in the top bar of Xcode similar to `FoldAR_4 > iPhone 8`.
         6. Unlock your iOS device and click the "Build and Run" button (gray "play" triangle) in the top-left of the Xcode window. You should see a "Build Succeeded" message within Xcode and the application will automatically launch on the iOS device.
         7. To close the application either click the "Stop Execution" button (gray "stop" square) or close the application using the iOS app switcher.
@@ -69,4 +69,3 @@ Instructions to access recorded data from the iOS device
         5. Right-click the data file and select "Show Package Contents".
         6. Within the package, navigate to `AppData/Documents` and copy the desired `sessionData-x-y.csv` file(s) to another location in the operating system (`x` = `participantID`; `y` = `mode`, 0, 1, or 2).
         7. When finished, disconnect the iOS device and close Xcode, saving any changes if needed.
-
