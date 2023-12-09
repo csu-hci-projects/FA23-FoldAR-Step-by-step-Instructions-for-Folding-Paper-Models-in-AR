@@ -67,8 +67,15 @@ To offload the recorded session data files from the iOS device, perform the foll
 7. When finished, disconnect the iOS device and close Xcode, saving any changes if needed.
 
 
-# Links to video presentations
-LINK TO 'FoldAR - Presentation Video.mp4': https://colostate.sharepoint.com/:v:/s/CompSci_CS567_FA23-Team/EX7NW3BfjWBOsnu8LcSKVaQBvrCCXYlnTLGYxqhwQ2iVBA?e=hCnMSt
-LINK TO 'FoldAR - Demo+Code Video.mp4': https://colostate.sharepoint.com/:v:/s/CompSci_CS567_FA23-Team/EToowcPOUdpKi3U1n0KO9TcBLVXcGUYZcg3hIRZwbxFOkA?e=VMfd8a
-LINK TO 'FoldAR - Elevator Pitch (Quick Video).mp4': https://colostate.sharepoint.com/:v:/s/CompSci_CS567_FA23-Team/EWyhfNg8yNJLsq6WpwwLGNgBk7lZcO7e7tQgqQ9oMVo8ng?e=qAYzkf
+# Links
+## Video Presentations
+Presentation Video: https://colostate.sharepoint.com/:v:/s/CompSci_CS567_FA23-Team/EX7NW3BfjWBOsnu8LcSKVaQBvrCCXYlnTLGYxqhwQ2iVBA?e=hCnMSt
+Demo+Code Video: https://colostate.sharepoint.com/:v:/s/CompSci_CS567_FA23-Team/EToowcPOUdpKi3U1n0KO9TcBLVXcGUYZcg3hIRZwbxFOkA?e=VMfd8a
+Elevator Pitch (Quick Video): https://colostate.sharepoint.com/:v:/s/CompSci_CS567_FA23-Team/EWyhfNg8yNJLsq6WpwwLGNgBk7lZcO7e7tQgqQ9oMVo8ng?e=qAYzkf
+
+## GitHub Repository
+https://github.com/csu-hci-projects/FA23-FoldAR-Step-by-step-Instructions-for-Folding-Paper-Models-in-AR
+
+## Overleaf Project
+https://www.overleaf.com/project/655fba1d8b736bb6914d6df5
 
