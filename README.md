@@ -2,7 +2,10 @@
 # FoldAR: Gesture Analytics Using Apple Vision Framework
 #### Ian Brown, Tani Cath, Tom Cavey
 
-## Repository Contents
+## Application Description
+At a high level, the application captures live video and overlays a marker on key hand points. This involves processing video frames, performing inference on each frame, and dynamically adding virtual graphics to the screen, which creates the augmented reality scene in real time. In addition to detecting and displaying visuals in real time, the timestamp, user data, and 2D points are recorded in a CSV format in the application’s memory sandbox.
+
+## Folder Contents
 ```
 ├── FoldAR - Final Project Report.pdf
 ├── Latex Source
@@ -10,27 +13,30 @@
 ├── Literature Survey
 │   └── PDFs of all papers
 ├── README.md (this file)
-├── README.txt
 ├── Source Code
-│   ├── Configuration (Xcode configuration files)
-│   ├── Data
-│   |   ├── FoldAR_NumericAnalysis.ipynb
-│   |   ├── FoldAR_SpatialAnalysis.ipynb
-│   |   ├── Images (plots saved from python notebooks)
-│   |   |   ├── boxPlots
-│   |   |   ├── meanDistances
-│   |   |   ├── temporalPlots
-│   |   |   ├── tipPathImages
-│   |   |   └── userCompletionTimes
-│   |   └── sessionData (Data files from experiments)
-│   ├── FoldAR_4 (Xcode source files)
-│   └── FoldAR_4.xcodeproj
+|   └── Repo.zip (GitHub)
+|       ├── README.md
+│       ├── Configuration (Xcode configuration files)
+|       ├── FoldAR_4 (Xcode source files)
+│       ├── FoldAR_4.xcodeproj
+│       └── Data
+│           ├── FoldAR_NumericAnalysis.ipynb
+│           ├── FoldAR_SpatialAnalysis.ipynb
+│           ├── Images (plots saved from python notebooks)
+│           |   ├── boxPlots
+│           |   ├── meanDistances
+│           |   ├── temporalPlots
+│           |   ├── tipPathImages
+│           |   └── userCompletionTimes
+│           └── sessionData (Data files from experiments)
 └── Videos
     ├── FoldAR - Demo+Code Video.mp4
     ├── FoldAR - Presentation Video.mp4
     └── FoldAR - Elevator Pitch (Quick Video).mp4
 ```
 
+
+# Running the Application
 
 ## System Requirements
 1. An Apple mobile device running iOS 16.6 or later.
@@ -69,3 +75,10 @@ To offload the recorded session data files from the iOS device, perform the foll
 5. Right-click the data file and select "Show Package Contents".
 6. Within the package, navigate to `AppData/Documents` and copy the desired `sessionData-x-y.csv` file(s) to another location in the operating system (`x` = `participantID`; `y` = `mode`, 0, 1, or 2).
 7. When finished, disconnect the iOS device and close Xcode, saving any changes if needed.
+
+
+# Links to video presentations
+LINK TO 'FoldAR - Presentation Video.mp4': https://colostate.sharepoint.com/:v:/s/CompSci_CS567_FA23-Team/EX7NW3BfjWBOsnu8LcSKVaQBvrCCXYlnTLGYxqhwQ2iVBA?e=hCnMSt
+LINK TO 'FoldAR - Demo+Code Video.mp4': https://colostate.sharepoint.com/:v:/s/CompSci_CS567_FA23-Team/EToowcPOUdpKi3U1n0KO9TcBLVXcGUYZcg3hIRZwbxFOkA?e=VMfd8a
+LINK TO 'FoldAR - Elevator Pitch (Quick Video).mp4': https://colostate.sharepoint.com/:v:/s/CompSci_CS567_FA23-Team/EWyhfNg8yNJLsq6WpwwLGNgBk7lZcO7e7tQgqQ9oMVo8ng?e=qAYzkf
+
