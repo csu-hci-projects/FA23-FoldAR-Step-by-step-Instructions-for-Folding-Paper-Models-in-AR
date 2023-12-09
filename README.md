@@ -5,34 +5,24 @@
 ## Application Description
 At a high level, the application captures live video and overlays a marker on key hand points. This involves processing video frames, performing inference on each frame, and dynamically adding virtual graphics to the screen, which creates the augmented reality scene in real time. In addition to detecting and displaying visuals in real time, the timestamp, user data, and 2D points are recorded in a CSV format in the application’s memory sandbox.
 
-## Folder Contents
+## Repository Contents
 ```
-├── FoldAR - Final Project Report.pdf
-├── Latex Source
-│   └── FoldAR - Final Project Report.zip
-├── Literature Survey
-│   └── PDFs of all papers
-├── README.md (this file)
-├── Source Code
-|   └── Repo.zip (GitHub)
-|       ├── README.md
-│       ├── Configuration (Xcode configuration files)
-|       ├── FoldAR_4 (Xcode source files)
-│       ├── FoldAR_4.xcodeproj
-│       └── Data
-│           ├── FoldAR_NumericAnalysis.ipynb
-│           ├── FoldAR_SpatialAnalysis.ipynb
-│           ├── Images (plots saved from python notebooks)
-│           |   ├── boxPlots
-│           |   ├── meanDistances
-│           |   ├── temporalPlots
-│           |   ├── tipPathImages
-│           |   └── userCompletionTimes
-│           └── sessionData (Data files from experiments)
-└── Videos
-    ├── FoldAR - Demo+Code Video.mp4
-    ├── FoldAR - Presentation Video.mp4
-    └── FoldAR - Elevator Pitch (Quick Video).mp4
+├── Repo.zip (GitHub)
+|   ├── README.md
+├── Code
+|   ├── Configuration (Xcode configuration files)
+|   ├── FoldAR_4 (Xcode source files)
+|   ├── FoldAR_4.xcodeproj
+└── Data
+    ├── FoldAR_NumericAnalysis.ipynb
+    ├── FoldAR_SpatialAnalysis.ipynb
+    ├── Images (plots saved from python notebooks)
+    |   ├── boxPlots
+    |   ├── meanDistances
+    |   ├── temporalPlots
+    |   ├── tipPathImages
+    |   └── userCompletionTimes
+    └── sessionData (Data files from experiments)
 ```
 
 
