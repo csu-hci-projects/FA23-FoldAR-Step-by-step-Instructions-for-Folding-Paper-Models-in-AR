@@ -7,12 +7,11 @@ At a high level, the application captures live video and overlays a marker on ke
 
 ## Repository Contents
 ```
-├── Repo.zip (GitHub)
-|   ├── README.md
+├── README.md (this file)
 ├── Code
 |   ├── Configuration (Xcode configuration files)
 |   ├── FoldAR_4 (Xcode source files)
-|   ├── FoldAR_4.xcodeproj
+|   └── FoldAR_4.xcodeproj
 └── Data
     ├── FoldAR_NumericAnalysis.ipynb
     ├── FoldAR_SpatialAnalysis.ipynb
